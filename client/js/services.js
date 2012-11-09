@@ -7,7 +7,7 @@ angular.module('simpleTwitter.services', [])
 			this.nextId = 0;
 		}
 		EventDispatcher.prototype.add = function(channel, callback) {
-			if(!this.listener[channel]) {
+			if(typeof this.listener[channel] === 'undefined') {
 				this.listener[channel] = {};
 			}
 			var id = this.nextId;
@@ -42,10 +42,9 @@ angular.module('simpleTwitter.services', [])
 			return count;
 		};
 
-		var eventDispatcher = new EventDispatcher();
-		return eventDispatcher;
+		return new EventDispatcher();
 	})
-	.factory('User', function(EventDispatcher) {
+	.factory('User', ['EventDispatcher', function(EventDispatcher) {
 		var $user = null;
 
 		return {
@@ -81,5 +80,91 @@ angular.module('simpleTwitter.services', [])
 				return $user!=null;
 			}
 		};
-	})
+	}])
+	.factory('Tweets', ['EventDispatcher', function(EventDispatcher) {
+		function Tweets() {
+			this.tweets = [];
+			this.init = false;
+
+			var ctx = this;
+			EventDispatcher.add('auth.login.success', function(channel, $user) {
+				alert('Load Data');
+				ctx.load();
+			});
+			EventDispatcher.add('auth.logout.success', function(channel, $user) {
+				ctx.tweets = [];
+			});
+		}
+		Tweets.prototype.load = function() {
+			this.init = true;
+
+			var tweets = [
+				{
+					'author': {
+						'username': 'fkrauthan',
+						'fullName': 'Florian Krauthan'
+					},
+					'message': 'Hallo Welt 123 das ist mein Tweet mit @fun Und #Hashtag',
+					'mentions': [
+						'fun'
+					],
+					'hashTags': [
+						'Hashtag'
+					],
+					'timestamp': 1352448873
+				},
+				{
+					'author': {
+						'username': 'fkrauthan',
+						'fullName': 'Florian Krauthan'
+					},
+					'message': '2Hallo Welt 123 das ist mein Tweet mit @fun Und #Hashtag',
+					'mentions': [
+						'fun'
+					],
+					'hashTags': [
+						'Hashtag'
+					],
+					'timestamp': 1352448875
+				},
+				{
+					'author': {
+						'username': 'fkrauthan',
+						'fullName': 'Florian Krauthan'
+					},
+					'message': '3Hallo Welt 123 das ist mein Tweet mit @fun Und #Hashtag',
+					'mentions': [
+						'fun'
+					],
+					'hashTags': [
+						'Hashtag'
+					],
+					'timestamp': 1352448890
+				}
+			];
+			this.add(tweets);
+
+			//TODO call webservice
+		};
+		Tweets.prototype.add = function(data) {
+			if(data instanceof Array) {
+				for(var i=0; i<data.length; i++) {
+					this.tweets.push(data[i]);
+					EventDispatcher.emit('tweet.added', data[i]);
+				}
+			}
+			else {
+				this.tweets.push(data);
+				EventDispatcher.emit('tweet.added', data);
+			}
+		};
+		Tweets.prototype.getAll = function() {
+			if(!this.init) {
+				this.load();
+			}
+			return this.tweets;
+		}
+
+		return new Tweets();
+	}]);
 ;

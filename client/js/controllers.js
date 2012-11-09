@@ -56,6 +56,32 @@ function ErrorController() {
 ErrorController.$inject = [];
 
 
-function HomeController() {
+function HomeController($scope, EventDispatcher, Tweets) {
+	$scope.tweets = Tweets.getAll();
+	EventDispatcher.add('tweet.added', function(channel, $tweet) {
+		alert('Test3');
+
+		alert($tweet.timestamp);
+		$scope.tweets.push($tweet);
+	});
+
+	setTimeout(function() {
+		Tweets.add(
+			{
+				'author': {
+					'username': 'fkrauthan',
+					'fullName': 'Florian Krauthan'
+				},
+				'message': 'NEW Hallo Welt 123 das ist mein Tweet mit @fun Und #Hashtag',
+				'mentions': [
+					'fun'
+				],
+				'hashTags': [
+					'Hashtag'
+				],
+				'timestamp': 2352448875
+			}
+		);
+	}, 2000);
 }
-HomeController.$inject = [];
+HomeController.$inject = ['$scope', 'EventDispatcher', 'Tweets'];

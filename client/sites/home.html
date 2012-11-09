@@ -5,3 +5,16 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="span8">
+        <div class="tweets">
+            <div class="tweet" data-ng-repeat="tweet in tweets | orderBy:timestamp">
+                {{ tweet.timestamp }}
+            </div>
+        </div>
+    </div>
+    <div class="span4">
+        Neuer Tweet
+    </div>
+</div>

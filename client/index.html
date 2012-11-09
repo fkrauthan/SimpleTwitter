@@ -26,14 +26,15 @@
 					</a>
 					<a class="brand" href="#/home">Simple Twitter</a>
 
-					<div class="hide" data-ng-show="isLoggedIn">
+					<div data-ng-show="isLoggedIn">
 						<div class="btn-group pull-right">
 							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="icon-user"></i><span class="hidden-phone"> Max Mustermann</span>
+								<i class="icon-user"></i><span class="hidden-phone"> {{ user.fullName }}</span>
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="#/profile/">Meine Daten</a></li>
+								<li data-ng-class="navClass('profile')"><a href="#/profile">My Profile</a></li>
+                                <li><a href="#/logout">Logout</a></li>
 							</ul>
 						</div>
 										  
@@ -49,19 +50,19 @@
 						<div class="nav-collapse">
 							<nav>
 								<ul class="nav">
-									<li class="active"><a href="#">Home<span class="hide"> <span class="badge">0</span></span></a></li>
-									<li><a href="#">Channels<span class="hide"> <span class="badge">0</span></span></a></li>
-									<li><a href="#">Direct messages<span class="hide"> <span class="badge">0</span></span></a></li>
-									<li><a href="#">Users</a></li>
+									<li data-ng-class="navClass('home')"><a href="#/home">Home<span class="hide"> <span class="badge">0</span></span></a></li>
+									<li data-ng-class="navClass('channels')"><a href="#/channels">Channels<span class="hide"> <span class="badge">0</span></span></a></li>
+									<li data-ng-class="navClass('messages')"><a href="#/messages">Direct messages<span class="hide"> <span class="badge">0</span></span></a></li>
+									<li data-ng-class="navClass('users')"><a href="#/users">Users</a></li>
 								</ul>
 							</nav>
 						</div><!--/.nav-collapse -->
 					</div>
-					<div data-ng-not-show="isLoggedIn">
+					<div data-ng-hide="isLoggedIn">
 						<div class="nav-collapse">
 							<nav>
 								<ul class="nav">
-									<li class="active"><a href="#/login">Login</a></li>
+									<li data-ng-class="navClass('login')"><a href="#/login">Login</a></li>
 								</ul>
 							</nav>
 						</div>
@@ -81,7 +82,7 @@
 			
 			<div class="row">
 				<div class="span6">
-					<p>© <a href="http://fkrauthan.de">fkrauthan.de 2012</a></p>
+					<p>© <a href="http://fkrauthan.de">fkrauthan.de</a> 2012</p>
 				</div>
 				<div class="span6" style="text-align: right;">
 					<p><a href="#/about">About</a></p>

@@ -7,12 +7,18 @@
                 Incorrect Username or Password!
             </div>
             <form name="loginForm" data-ng-submit="doLogin()">
-                <input type="text" id="username" class="span6" name="username" placeholder="Username" data-ng-model="username" required="required">
-                <input type="password" id="password" class="span6" name="password" placeholder="Password" data-ng-model="password" required="required">
+                <div class="input-prepend">
+                    <span class="add-on"><i class="icon-user"></i></span>
+                    <input type="text" id="username" class="span5" name="username" placeholder="Username" data-ng-model="username" required="required"/>
+                </div>
+                <div class="input-prepend">
+                    <span class="add-on"><i class="icon-key"></i></span>
+                    <input type="password" id="password" class="span5" name="password" placeholder="Password" data-ng-model="password" required="required"/>
+                </div>
                 <label class="checkbox">
                     <input type="checkbox" name="remember" value="1" data-ng-model="rememberMe"> Remember Me
                 </label>
-                <button type="submit" name="submit" class="btn btn-primary btn-block">Sign in</button>
+                <button type="submit" name="submit" class="btn btn-primary span5">Sign in</button>
             </form>
         </div>
     </div>

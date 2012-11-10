@@ -65,6 +65,11 @@ ErrorController.$inject = [];
 
 function HomeController($scope, Tweets) {
 	$scope.tweets = Tweets.getAll();
+	$scope.scrollToTop = function() {
+		$('body,html').animate({
+			scrollTop: 0
+		}, 800);
+	};
 
 	//Register event handler
 	$scope.$on('tweetsAdded', function() {
@@ -88,7 +93,7 @@ function HomeController($scope, Tweets) {
 				'hashTags': [
 					'Hashtag'
 				],
-				'timestamp': '2008-07-17T09:24:17Z'
+				'timestamp': new Date()
 			}
 		);
 	}, 2000);

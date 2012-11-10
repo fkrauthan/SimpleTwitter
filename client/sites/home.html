@@ -11,10 +11,11 @@
         <div class="tweets">
             <div class="tweet well" data-ng-repeat="tweet in tweets">
                 <div class="media">
-                    <a class="pull-left" href="#/user/">
+                    <a class="pull-left" href="#/u/{{ tweet.author.username }}">
                         <img class="media-object" src="http://placehold.it/64x64" />
                     </a>
                     <div class="media-body">
+                        <div class="pull-right"><a href="javascript:void(0)" data-ng-click="scrollToTop()"><i class="icon-circle-arrow-up scrollToTop" title="Scroll To Top"></i></a></div>
                         <h4 class="media-heading">{{ tweet.author.username }}</h4>
                         <div>{{ tweet.message }}</div>
                         <div class="pull-right"><abbr class="timeago" title="{{ tweet.timestamp | date : 'fullDate' }} {{ tweet.timestamp | date : 'shortTime' }}">{{ tweet.timestamp | timeAgo }}</abbr></div>

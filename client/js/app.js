@@ -6,7 +6,7 @@ angular.module('simpleTwitter', ['simpleTwitter.filters', 'simpleTwitter.service
 		$routeProvider.when('/', {redirectTo: '/login'});
 
 		$routeProvider.when('/login', {templateUrl: 'sites/login.html', controller: LoginController});
-		$routeProvider.when('/logout', {controller: LogoutController});
+		$routeProvider.when('/logout', {templateUrl: 'sites/logout.html', controller: LogoutController});
 
 		$routeProvider.when('/about', {templateUrl: 'sites/about.html', controller: AboutController});
 		$routeProvider.when('/404', {templateUrl: 'sites/404.html', controller: ErrorController});

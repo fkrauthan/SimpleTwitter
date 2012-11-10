@@ -52,9 +52,9 @@ LoginController.$inject = ['$scope', '$location', 'User'];
 
 
 function LogoutController($location, User) {
-	alert('Logout controller');
-	User.logout();
-	$location.path('/login');
+	User.logout(function() {
+		$location.path('/login');
+	});
 }
 LogoutController.$inject = ['$location', 'User'];
 

@@ -1,6 +1,16 @@
 'use strict';
 
 angular.module('simpleTwitter.services', [])
+	.factory('nowTime', ['$timeout',function($timeout) {
+		var nowTime;
+		(function updateTime() {
+			nowTime = Date.now();
+			$timeout(updateTime, 1000);
+		}());
+		return function() {
+			return nowTime;
+		};
+	}])
 	.factory('User', function($rootScope) {
 		var $user = null;
 
@@ -69,7 +79,7 @@ angular.module('simpleTwitter.services', [])
 					'hashTags': [
 						'Hashtag'
 					],
-					'timestamp': 1352448873
+					'timestamp': '2012-07-17T09:24:17Z'
 				},
 				{
 					'author': {
@@ -83,7 +93,7 @@ angular.module('simpleTwitter.services', [])
 					'hashTags': [
 						'Hashtag'
 					],
-					'timestamp': 1352448875
+					'timestamp': '2011-07-17T09:24:17Z'
 				},
 				{
 					'author': {
@@ -97,7 +107,7 @@ angular.module('simpleTwitter.services', [])
 					'hashTags': [
 						'Hashtag'
 					],
-					'timestamp': 1352448890
+					'timestamp': '2010-07-17T09:24:17Z'
 				}
 			];
 			this.add(tweets);

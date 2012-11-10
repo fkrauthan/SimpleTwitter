@@ -12,10 +12,12 @@ function NavbarController($scope, $location) {
 	$scope.$on('login', function(args) {
 		$scope.isLoggedIn = true;
 		$scope.user = args[0];
+		$scope.$safeApply($scope);
 	});
 	$scope.$on('logout', function(args) {
 		$scope.isLoggedIn = false;
 		$scope.user = null;
+		$scope.$safeApply($scope);
 	});
 }
 NavbarController.$inject = ['$scope', '$location'];
@@ -29,12 +31,14 @@ function LoginController($scope, $location, User) {
 	
 	$scope.doLogin = function() {
 		$scope.isLoginError = false;
+		$scope.$safeApply($scope);
 
 		//TODO call service to authenticate the user
 		User.login($scope.username, $scope.password, $scope.rememberMe, function(user) {
 			$location.path('/home');
 		}, function(error) {
 			$scope.isLoginError = true;
+			$scope.$safeApply($scope);
 		});
 	};
 }
@@ -84,7 +88,7 @@ function HomeController($scope, Tweets) {
 				'hashTags': [
 					'Hashtag'
 				],
-				'timestamp': 2352448875
+				'timestamp': '2008-07-17T09:24:17Z'
 			}
 		);
 	}, 2000);

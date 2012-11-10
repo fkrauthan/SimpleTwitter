@@ -9,8 +9,17 @@
 <div class="row">
     <div class="span8">
         <div class="tweets">
-            <div class="tweet" data-ng-repeat="tweet in tweets | orderBy:timestamp">
-                {{ tweet.timestamp }}
+            <div class="tweet well" data-ng-repeat="tweet in tweets">
+                <div class="media">
+                    <a class="pull-left" href="#/user/">
+                        <img class="media-object" src="http://placehold.it/64x64" />
+                    </a>
+                    <div class="media-body">
+                        <h4 class="media-heading">{{ tweet.author.username }}</h4>
+                        <div>{{ tweet.message }}</div>
+                        <div class="pull-right"><abbr class="timeago" title="{{ tweet.timestamp | date : 'fullDate' }} {{ tweet.timestamp | date : 'shortTime' }}">{{ tweet.timestamp | timeAgo }}</abbr></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

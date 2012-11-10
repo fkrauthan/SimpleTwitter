@@ -55,7 +55,6 @@ angular.module('simpleTwitter.services', [])
 
 			var ctx = this;
 			$rootScope.$on('login', function(event, args) {
-				alert('Load Data');
 				ctx.load();
 			});
 			$rootScope.$on('logout', function(event, args) {

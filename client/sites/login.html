@@ -1,32 +1,19 @@
 
-<div style="height: 500px;">
-	<form name="loginForm" data-ng-submit="doLogin()">
-		<div class="modal">
-			<div class="modal-header">
-				<h3>Login</h3>
-			</div>
-			<div class="modal-body">
-				<div class="control-group">
-					<label for="username" class="required">Username</label>
-					<input id="username" type="text" class="input-block-level" placeholder="Username" data-ng-model="username" required="required"/>
-				</div>
-				
-				<div class="control-group">
-					<label for="password" class="required">Password</label>
-					<input id="password" type="password" class="input-block-level" placeholder="Password" data-ng-model="password" required="required"/>
-				</div>
-				
-				<div class="control-group">
-					<div class="controls">
-						<label class="checkbox">
-							<input type="checkbox" data-ng-model="rememberMe"> Remember me
-						</label>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<input type="submit" class="btn btn-primary" value="Sign In"/>
-			</div>
-		</div>
-	</form>
+<div class="container">
+    <div class="row">
+        <div class="span6 offset3 well">
+            <legend>Please Sign In</legend>
+            <div class="alert alert-error" data-ng-show="isLoginError">
+                Incorrect Username or Password!
+            </div>
+            <form name="loginForm" data-ng-submit="doLogin()">
+                <input type="text" id="username" class="span6" name="username" placeholder="Username" data-ng-model="username" required="required">
+                <input type="password" id="password" class="span6" name="password" placeholder="Password" data-ng-model="password" required="required">
+                <label class="checkbox">
+                    <input type="checkbox" name="remember" value="1" data-ng-model="rememberMe"> Remember Me
+                </label>
+                <button type="submit" name="submit" class="btn btn-primary btn-block">Sign in</button>
+            </form>
+        </div>
+    </div>
 </div>

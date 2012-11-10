@@ -25,13 +25,16 @@ function LoginController($scope, $location, User) {
 	$scope.username = '';
 	$scope.password = '';
 	$scope.rememberMe = false;
+	$scope.isLoginError = false;
 	
 	$scope.doLogin = function() {
+		$scope.isLoginError = false;
+
 		//TODO call service to authenticate the user
 		User.login($scope.username, $scope.password, $scope.rememberMe, function(user) {
 			$location.path('/home');
 		}, function(error) {
-			//TODO error handling
+			$scope.isLoginError = true;
 		});
 	};
 }
@@ -59,9 +62,6 @@ ErrorController.$inject = [];
 function HomeController($scope, EventDispatcher, Tweets) {
 	$scope.tweets = Tweets.getAll();
 	EventDispatcher.add('tweet.added', function(channel, $tweet) {
-		alert('Test3');
-
-		alert($tweet.timestamp);
 		$scope.tweets.push($tweet);
 	});
 

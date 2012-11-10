@@ -54,11 +54,11 @@ angular.module('simpleTwitter.services', [])
 			this.init = false;
 
 			var ctx = this;
-			$rootScope.$on('login', function(args) {
+			$rootScope.$on('login', function(event, args) {
 				alert('Load Data');
 				ctx.load();
 			});
-			$rootScope.$on('logout', function(args) {
+			$rootScope.$on('logout', function(event, args) {
 				ctx.tweets = [];
 				ctx.init = false;
 			});

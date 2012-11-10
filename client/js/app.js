@@ -2,17 +2,19 @@
 
 angular.module('simpleTwitter', ['simpleTwitter.filters', 'simpleTwitter.services', 'simpleTwitter.directives'])
 	.config(['$routeProvider', function($routeProvider) {
-		$routeProvider.when('', {redirectTo: '/login'});
-		$routeProvider.when('/', {redirectTo: '/login'});
+		$routeProvider
+			.when('', {redirectTo: '/login'})
+			.when('/', {redirectTo: '/login'})
 
-		$routeProvider.when('/login', {templateUrl: 'sites/login.html', controller: LoginController});
-		$routeProvider.when('/logout', {templateUrl: 'sites/logout.html', controller: LogoutController});
+			.when('/login', {templateUrl: 'sites/login.html', controller: LoginController})
+			.when('/logout', {templateUrl: 'sites/logout.html', controller: LogoutController})
 
-		$routeProvider.when('/about', {templateUrl: 'sites/about.html', controller: AboutController});
-		$routeProvider.when('/404', {templateUrl: 'sites/404.html', controller: ErrorController});
+			.when('/about', {templateUrl: 'sites/about.html', controller: AboutController})
+			.when('/404', {templateUrl: 'sites/404.html', controller: ErrorController})
 
-		$routeProvider.when('/home', {templateUrl: 'sites/home.html', controller: HomeController});
-		$routeProvider.otherwise({redirectTo: '/404'});
+			.when('/home', {templateUrl: 'sites/home.html', controller: HomeController})
+			.otherwise({redirectTo: '/404'})
+		;
 	}])
 	.run(function($rootScope, $location, User) {
 		var allowedUrls = [

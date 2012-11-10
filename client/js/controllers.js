@@ -2,6 +2,12 @@
 
 
 /**
+ * Global config
+ */
+var MAX_MESSAGE_LENGTH = 120;
+
+
+/**
  * Site elements
  */
 function NavbarController($scope, $location) {
@@ -24,6 +30,29 @@ function NavbarController($scope, $location) {
 	});
 }
 NavbarController.$inject = ['$scope', '$location'];
+
+
+function TweetSendController($scope) {
+	$scope.newMessage = '';
+	$scope.maxCharsCount = MAX_MESSAGE_LENGTH;
+	$scope.remainingCharsCount = MAX_MESSAGE_LENGTH;
+
+	$scope.messageChanged = function() {
+		if(!$scope.newMessage) {
+			$scope.remainingCharsCount = MAX_MESSAGE_LENGTH;
+			$scope.$safeApply($scope);
+			return;
+		}
+
+		$scope.remainingCharsCount = MAX_MESSAGE_LENGTH - $scope.newMessage.length;
+		if($scope.remainingCharsCount < 0) {
+			$scope.newMessage = $scope.newMessage.substr(0, MAX_MESSAGE_LENGTH);
+			$scope.remainingCharsCount = 0;
+		}
+		$scope.$safeApply($scope);
+	};
+}
+TweetSendController.$inject = ['$scope'];
 
 
 /**

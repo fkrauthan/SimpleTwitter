@@ -1,7 +1,7 @@
 'use strict';
 
 
-function NavbarController($scope, $location, EventDispatcher) {
+function NavbarController($scope, $location) {
 	//Handling url changes
 	$scope.navClass = function (page) {
 		var currentRoute = $location.path().substring(1);
@@ -9,16 +9,16 @@ function NavbarController($scope, $location, EventDispatcher) {
 	};
 
 	//Handling login event
-	EventDispatcher.add('auth.login.success', function(channel, $user) {
+	$scope.$on('login', function(args) {
 		$scope.isLoggedIn = true;
-		$scope.user = $user;
+		$scope.user = args[0];
 	});
-	EventDispatcher.add('auth.logout.success', function(channel, $user) {
+	$scope.$on('logout', function(args) {
 		$scope.isLoggedIn = false;
 		$scope.user = null;
 	});
 }
-NavbarController.$inject = ['$scope', '$location', 'EventDispatcher'];
+NavbarController.$inject = ['$scope', '$location'];
 
 
 function LoginController($scope, $location, User) {
@@ -59,10 +59,15 @@ function ErrorController() {
 ErrorController.$inject = [];
 
 
-function HomeController($scope, EventDispatcher, Tweets) {
+function HomeController($scope, Tweets) {
 	$scope.tweets = Tweets.getAll();
-	EventDispatcher.add('tweet.added', function(channel, $tweet) {
-		$scope.tweets.push($tweet);
+
+	//Register event handler
+	$scope.$on('tweetsAdded', function() {
+		$scope.$safeApply($scope);
+	});
+	$scope.$on('tweetAdded', function() {
+		$scope.$safeApply($scope);
 	});
 
 	setTimeout(function() {
@@ -84,4 +89,4 @@ function HomeController($scope, EventDispatcher, Tweets) {
 		);
 	}, 2000);
 }
-HomeController.$inject = ['$scope', 'EventDispatcher', 'Tweets'];
+HomeController.$inject = ['$scope', 'Tweets'];

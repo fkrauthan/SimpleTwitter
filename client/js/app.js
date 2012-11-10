@@ -29,6 +29,17 @@ angular.module('simpleTwitter', ['simpleTwitter.filters', 'simpleTwitter.service
 			return false;
 		}
 
+		$rootScope.$safeApply = function($scope, fn) {
+			$scope = $scope || $rootScope;
+			fn = fn || function() {};
+			if($scope.$$phase) {
+				fn();
+			}
+			else {
+				$scope.$apply(fn);
+			}
+		};
+
 		$rootScope.$on('$routeChangeStart', function(event, next, current) {
 			if(!User.isLoggedIn()) {
 				if(!inArray(next.templateUrl, allowedUrls)) {

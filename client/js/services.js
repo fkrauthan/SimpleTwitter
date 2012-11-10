@@ -1,50 +1,7 @@
 'use strict';
 
 angular.module('simpleTwitter.services', [])
-	.factory('EventDispatcher', function() {
-		function EventDispatcher() {
-			this.listener = {};
-			this.nextId = 0;
-		}
-		EventDispatcher.prototype.add = function(channel, callback) {
-			if(typeof this.listener[channel] === 'undefined') {
-				this.listener[channel] = {};
-			}
-			var id = this.nextId;
-			this.nextId += 1;
-			this.listener[channel][id] = callback;
-
-			return id;
-		};
-		EventDispatcher.prototype.remove = function(channel, id) {
-			if(!this.listener[channel]) {
-				return null;
-			}
-			else if(this.listener[channel][id]) {
-				return null;
-			}
-			var clb = this.listener[channel][id];
-			delete this.listener[channel][id];
-
-			return clb;
-		};
-		EventDispatcher.prototype.emit = function(channel, data) {
-			if(!this.listener[channel]) {
-				return null;
-			}
-
-			var count = 0;
-			for(var key in this.listener[channel]) {
-				count += 1;
-				this.listener[channel][key](channel, data);
-			}
-
-			return count;
-		};
-
-		return new EventDispatcher();
-	})
-	.factory('User', ['EventDispatcher', function(EventDispatcher) {
+	.factory('User', function($rootScope) {
 		var $user = null;
 
 		return {
@@ -60,7 +17,7 @@ angular.module('simpleTwitter.services', [])
 				};
 
 				$user = user;
-				EventDispatcher.emit('auth.login.success', $user);
+				$rootScope.$broadcast('login', [$user]);
 
 				onSuccess(true, user);
 			},
@@ -68,7 +25,7 @@ angular.module('simpleTwitter.services', [])
 				//TODO call webservice
 				//TODO delete rememberMe Cookie
 
-				EventDispatcher.emit('auth.logout.success', $user);
+				$rootScope.$broadcast('logout', [$user]);
 				$user = null;
 
 				callback(true);
@@ -80,19 +37,20 @@ angular.module('simpleTwitter.services', [])
 				return $user!=null;
 			}
 		};
-	}])
-	.factory('Tweets', ['EventDispatcher', function(EventDispatcher) {
+	})
+	.factory('Tweets', function($rootScope) {
 		function Tweets() {
 			this.tweets = [];
 			this.init = false;
 
 			var ctx = this;
-			EventDispatcher.add('auth.login.success', function(channel, $user) {
+			$rootScope.$on('login', function(args) {
 				alert('Load Data');
 				ctx.load();
 			});
-			EventDispatcher.add('auth.logout.success', function(channel, $user) {
+			$rootScope.$on('logout', function(args) {
 				ctx.tweets = [];
+				ctx.init = false;
 			});
 		}
 		Tweets.prototype.load = function() {
@@ -150,12 +108,12 @@ angular.module('simpleTwitter.services', [])
 			if(data instanceof Array) {
 				for(var i=0; i<data.length; i++) {
 					this.tweets.push(data[i]);
-					EventDispatcher.emit('tweet.added', data[i]);
 				}
+				$rootScope.$broadcast('tweetsAdded', [data]);
 			}
 			else {
 				this.tweets.push(data);
-				EventDispatcher.emit('tweet.added', data);
+				$rootScope.$broadcast('tweetAdded', [data]);
 			}
 		};
 		Tweets.prototype.getAll = function() {
@@ -166,5 +124,5 @@ angular.module('simpleTwitter.services', [])
 		}
 
 		return new Tweets();
-	}]);
+	});
 ;

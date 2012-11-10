@@ -1,6 +1,9 @@
 'use strict';
 
 
+/**
+ * Site elements
+ */
 function NavbarController($scope, $location) {
 	//Handling url changes
 	$scope.navClass = function (page) {
@@ -9,12 +12,12 @@ function NavbarController($scope, $location) {
 	};
 
 	//Handling login event
-	$scope.$on('login', function(args) {
+	$scope.$on('login', function(event, args) {
 		$scope.isLoggedIn = true;
 		$scope.user = args[0];
 		$scope.$safeApply($scope);
 	});
-	$scope.$on('logout', function(args) {
+	$scope.$on('logout', function(event, args) {
 		$scope.isLoggedIn = false;
 		$scope.user = null;
 		$scope.$safeApply($scope);
@@ -23,6 +26,9 @@ function NavbarController($scope, $location) {
 NavbarController.$inject = ['$scope', '$location'];
 
 
+/**
+ * Site controller
+ */
 function LoginController($scope, $location, User) {
 	$scope.username = '';
 	$scope.password = '';

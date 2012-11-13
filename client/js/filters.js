@@ -7,6 +7,7 @@ angular.module('simpleTwitter.filters', [])
 		};
 	}])
 	.filter('tweetMentions', function() {
+		//TODO needs to be fixed if @test and after that @test2 for example
 		return function(input, mentions) {
 			for(var i in mentions) {
 				var regexString = '@'+mentions[i];
@@ -16,6 +17,7 @@ angular.module('simpleTwitter.filters', [])
 		};
 	})
 	.filter('tweetHashTags', function() {
+		//TODO needs to be fixed if #test and after that #test2 for example
 		return function(input, hashTags) {
 			for(var i in hashTags) {
 				var regexString = '#'+hashTags[i];

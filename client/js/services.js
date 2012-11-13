@@ -145,18 +145,30 @@ angular.module('simpleTwitter.services', [])
 				},
 				'message': message,
 				'mentions': this.parseMentions(message),
-				'hashTags': this.parseHashtags(message),
+				'hashTags': this.parseHashTags(message),
 				'submitted': false,
 				'timestamp': new Date()
 			};
+			alert(tweet.mentions);
+			alert(tweet.hashTags);
 			this.add(tweet);
 		};
 
 		Tweets.prototype.parseMentions = function(message) {
-			return message.match(/@(\w+)/g);
+			var regexResults = message.match(/@([\w\d]+)/g);
+			var results = [];
+			for(var i in regexResults) {
+				results.push(regexResults[i].substr(1));
+			}
+			return results;
 		};
-		Tweets.prototype.parseHashtags = function(message) {
-			return message.match(/#(\w+)/g);
+		Tweets.prototype.parseHashTags = function(message) {
+			var regexResults = message.match(/#([\w\d]+)/g);
+			var results = [];
+			for(var i in regexResults) {
+				results.push(regexResults[i].substr(1));
+			}
+			return results;
 		};
 
 		return new Tweets();

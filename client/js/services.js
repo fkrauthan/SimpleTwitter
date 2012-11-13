@@ -144,12 +144,19 @@ angular.module('simpleTwitter.services', [])
 					'fullName': user.fullName
 				},
 				'message': message,
-				'mentions': [],
-				'hashTags': [],
+				'mentions': this.parseMentions(message),
+				'hashTags': this.parseHashtags(message),
 				'submitted': false,
 				'timestamp': new Date()
 			};
 			this.add(tweet);
+		};
+
+		Tweets.prototype.parseMentions = function(message) {
+			return message.match(/@(\w+)/g);
+		};
+		Tweets.prototype.parseHashtags = function(message) {
+			return message.match(/#(\w+)/g);
 		};
 
 		return new Tweets();

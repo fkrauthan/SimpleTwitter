@@ -78,6 +78,7 @@ angular.module('simpleTwitter.services', [])
 					'hashTags': [
 						'Hashtag'
 					],
+					'submitted': true,
 					'timestamp': new Date('2012-07-17T09:24:17Z')
 				},
 				{
@@ -92,6 +93,7 @@ angular.module('simpleTwitter.services', [])
 					'hashTags': [
 						'Hashtag'
 					],
+					'submitted': true,
 					'timestamp': new Date('2011-07-17T09:24:17Z')
 				},
 				{
@@ -106,6 +108,7 @@ angular.module('simpleTwitter.services', [])
 					'hashTags': [
 						'Hashtag'
 					],
+					'submitted': true,
 					'timestamp': new Date('2010-07-17T09:24:17Z')
 				}
 			];
@@ -143,6 +146,7 @@ angular.module('simpleTwitter.services', [])
 				'message': message,
 				'mentions': [],
 				'hashTags': [],
+				'submitted': false,
 				'timestamp': new Date()
 			};
 			this.add(tweet);

@@ -135,6 +135,7 @@ function HomeController($scope, Tweets) {
 				'hashTags': [
 					'Hashtag'
 				],
+				'submitted': true,
 				'timestamp': new Date()
 			}
 		);

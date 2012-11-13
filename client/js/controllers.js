@@ -34,28 +34,11 @@ NavbarController.$inject = ['$scope', '$location'];
 
 function TweetSendController($scope, Tweets) {
 	$scope.newMessage = '';
-	$scope.maxCharsCount = MAX_MESSAGE_LENGTH;
-	$scope.remainingCharsCount = MAX_MESSAGE_LENGTH;
+	$scope.maxMessageLength = MAX_MESSAGE_LENGTH;
 
-	$scope.messageChanged = function() {
-		if(!$scope.newMessage) {
-			$scope.remainingCharsCount = MAX_MESSAGE_LENGTH;
-			$scope.$safeApply($scope);
-			return;
-		}
-
-		$scope.remainingCharsCount = MAX_MESSAGE_LENGTH - $scope.newMessage.length;
-		if($scope.remainingCharsCount < 0) {
-			$scope.newMessage = $scope.newMessage.substr(0, MAX_MESSAGE_LENGTH);
-			$scope.remainingCharsCount = 0;
-		}
-	};
 	$scope.sendMessage = function() {
 		var msg = $scope.newMessage;
-
 		$scope.newMessage = '';
-		$scope.remainingCharsCount = MAX_MESSAGE_LENGTH;
-
 		Tweets.send(msg);
 	};
 }

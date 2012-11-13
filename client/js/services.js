@@ -149,8 +149,6 @@ angular.module('simpleTwitter.services', [])
 				'submitted': false,
 				'timestamp': new Date()
 			};
-			alert(tweet.mentions);
-			alert(tweet.hashTags);
 			this.add(tweet);
 		};
 

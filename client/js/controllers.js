@@ -49,7 +49,6 @@ function TweetSendController($scope) {
 			$scope.newMessage = $scope.newMessage.substr(0, MAX_MESSAGE_LENGTH);
 			$scope.remainingCharsCount = 0;
 		}
-		$scope.$safeApply($scope);
 	};
 }
 TweetSendController.$inject = ['$scope'];

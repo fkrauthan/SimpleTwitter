@@ -5,5 +5,5 @@ angular.module('simpleTwitter.filters', [])
 		return function(input) {
 			return moment(input).from(now());
 		};
-	}]);
+	}])
 ;

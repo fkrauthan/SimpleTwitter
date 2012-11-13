@@ -16,8 +16,8 @@
                     </a>
                     <div class="media-body">
                         <div class="pull-right"><a href="javascript:void(0)" data-ng-click="scrollToTop()"><i class="icon-circle-arrow-up scrollToTop" title="Scroll To Top"></i></a></div>
-                        <h4 class="media-heading">{{ tweet.author.username }}</h4>
-                        <div>{{ tweet.message }}</div>
+                        <h4 class="media-heading"><a href="#/u/{{ tweet.author.username }}">{{ tweet.author.username }}</a></h4>
+                        <div data-ng-bind-html="tweet.message | linky | tweetMentions : tweet.mentions | tweetHashTags : tweet.hashTags">Tweet content</div>
                         <div class="pull-right" data-ng-show="tweet.submitted">
                             <abbr class="timeago" title="{{ tweet.timestamp | date : 'fullDate' }} {{ tweet.timestamp | date : 'shortTime' }}">{{ tweet.timestamp | timeAgo }}</abbr>
                         </div>

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('simpleTwitter', ['simpleTwitter.filters', 'simpleTwitter.services', 'simpleTwitter.directives'])
+angular.module('simpleTwitter', ['simpleTwitter.filters', 'simpleTwitter.services', 'simpleTwitter.directives', 'ngSanitize'])
 	.config(['$routeProvider', function($routeProvider) {
 		$routeProvider
 			.when('', {redirectTo: '/login'})

@@ -32,7 +32,7 @@ function NavbarController($scope, $location) {
 NavbarController.$inject = ['$scope', '$location'];
 
 
-function TweetSendController($scope) {
+function TweetSendController($scope, Tweets) {
 	$scope.newMessage = '';
 	$scope.maxCharsCount = MAX_MESSAGE_LENGTH;
 	$scope.remainingCharsCount = MAX_MESSAGE_LENGTH;
@@ -50,8 +50,16 @@ function TweetSendController($scope) {
 			$scope.remainingCharsCount = 0;
 		}
 	};
+	$scope.sendMessage = function() {
+		var msg = $scope.newMessage;
+
+		$scope.newMessage = '';
+		$scope.remainingCharsCount = MAX_MESSAGE_LENGTH;
+
+		Tweets.send(msg);
+	};
 }
-TweetSendController.$inject = ['$scope'];
+TweetSendController.$inject = ['$scope', 'Tweets'];
 
 
 /**

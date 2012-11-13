@@ -9,7 +9,7 @@
 <div class="row">
     <div class="span8">
         <div class="tweets">
-            <div class="tweet well" data-ng-repeat="tweet in tweets">
+            <div class="tweet well" data-ng-repeat="tweet in tweets | orderBy : 'timestamp' : true">
                 <div class="media">
                     <a class="pull-left" href="#/u/{{ tweet.author.username }}">
                         <img class="media-object" src="http://placehold.it/64x64" />
@@ -26,7 +26,7 @@
     </div>
     <div class="span4" data-ng-controller="TweetSendController">
         <div class="well">
-            <form accept-charset="UTF-8" action="" method="POST">
+            <form data-ng-submit="sendMessage()">
                 <textarea class="input-block-level" id="newMessage" name="newMessage" placeholder="Type in your message" rows="5" data-ng-model="newMessage" data-ng-change="messageChanged()" required="required">{{ newMessage }}</textarea>
                 <h6 class="pull-right">
                     <span data-ng-pluralize data-count="remainingCharsCount" data-when="{'0': '0 characters',

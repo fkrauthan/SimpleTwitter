@@ -48,7 +48,7 @@ angular.module('simpleTwitter.services', [])
 			}
 		};
 	})
-	.factory('Tweets', function($rootScope) {
+	.factory('Tweets', ['$rootScope', 'User', function($rootScope, User) {
 		function Tweets() {
 			this.tweets = [];
 			this.init = false;
@@ -78,7 +78,7 @@ angular.module('simpleTwitter.services', [])
 					'hashTags': [
 						'Hashtag'
 					],
-					'timestamp': '2012-07-17T09:24:17Z'
+					'timestamp': new Date('2012-07-17T09:24:17Z')
 				},
 				{
 					'author': {
@@ -92,7 +92,7 @@ angular.module('simpleTwitter.services', [])
 					'hashTags': [
 						'Hashtag'
 					],
-					'timestamp': '2011-07-17T09:24:17Z'
+					'timestamp': new Date('2011-07-17T09:24:17Z')
 				},
 				{
 					'author': {
@@ -106,7 +106,7 @@ angular.module('simpleTwitter.services', [])
 					'hashTags': [
 						'Hashtag'
 					],
-					'timestamp': '2010-07-17T09:24:17Z'
+					'timestamp': new Date('2010-07-17T09:24:17Z')
 				}
 			];
 			this.add(tweets);
@@ -130,8 +130,24 @@ angular.module('simpleTwitter.services', [])
 				this.load();
 			}
 			return this.tweets;
-		}
+		};
+		Tweets.prototype.send = function(message) {
+			//TODO call webservice
+
+			var user = User.getUser();
+			var tweet = {
+				'author': {
+					'username': user.username,
+					'fullName': user.fullName
+				},
+				'message': message,
+				'mentions': [],
+				'hashTags': [],
+				'timestamp': new Date()
+			};
+			this.add(tweet);
+		};
 
 		return new Tweets();
-	});
+	}]);
 ;

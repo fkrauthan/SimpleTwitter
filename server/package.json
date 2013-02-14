@@ -7,7 +7,8 @@
 	"private": true,
 	"dependencies": {
 		"express": "~3.0.3",
-		"express-error": "~0.0.3"
+		"express-error": "~0.0.3",
+		"mongoose": "~3.5.5"
 	},
 	"devDependencies": {
 	}

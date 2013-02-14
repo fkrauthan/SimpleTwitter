@@ -6,6 +6,8 @@ var expressError = require('express-error');
 var http = require('http');
 var https = require('https');
 
+var mongoose = require('mongoose');
+
 
 //----------------------------------------------------------------------
 // Configuration
@@ -33,6 +35,14 @@ global.DEBUG = process.env.NODE_ENV == 'development';
 
 
 //----------------------------------------------------------------------
+// Setup the database connection
+//----------------------------------------------------------------------
+mongoose.connect(Config.mongoose.uri, Config.mongoose.options);
+
+require(__dirname + '/models');
+
+
+//----------------------------------------------------------------------
 // Setup the basic webserver
 //----------------------------------------------------------------------
 
@@ -50,6 +60,9 @@ app.configure(function() {
 	if(Config.logging === true || DEBUG === true) {
 		app.use(express.logger());
 	}
+
+	//Initialize the api callbacks
+	require(__dirname + '/api').init(app);
 	
 	//Enable error handling
 	app.use(function(req, res, next) {

@@ -1,3 +1,7 @@
 {
-	"port": 2010
+	"port": 2010,
+	"mongoose": {
+		"uri": "mongodb://localhost/SimpleTwitter",
+		"options": {}
+	}
 }

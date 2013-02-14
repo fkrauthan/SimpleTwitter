@@ -1,0 +1,14 @@
+{
+	"name": "simple-twitter-server",
+	"description": "The simple twitter server part",
+	"version": "0.0.0",
+	"author": "Florian Krauthan",
+	"homepage": "http://fkrauthan.de",
+	"private": true,
+	"dependencies": {
+		"express": "~3.0.3",
+		"express-error": "~0.0.3"
+	},
+	"devDependencies": {
+	}
+}

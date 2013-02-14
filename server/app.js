@@ -81,7 +81,7 @@ app.configure(function() {
 });
 
 //Start webapp
-if(Config.ssl && Config.ssl.enabled == true) {
+if('ssl' in Config && 'enabled' in Config.ssl && 'key' in Config.ssl && 'cert' in Config.ssl && Config.ssl.enabled == true) {
 	var keyFile = Config.ssl.key;
 	if(keyFile && keyFile.charAt(0) != '/') {
 		keyFile = __dirname + '/' + keyFile;
@@ -97,11 +97,15 @@ if(Config.ssl && Config.ssl.enabled == true) {
 		cert: fs.readFileSync(certFile),
 	};
 	
-	if(!Config.ssl.bind) {
+	if(!('bind' in Config.ssl)) {
 		Config.ssl.bind = Config.bind;
 	}
+	
+	if(!('port' in Config.ssl)) {
+		Config.ssl.port = Config.port;
+	}
 
-	var server = https.createServer({}, app).listen(Config.port, Config.bind, function(){
+	var server = https.createServer(options, app).listen(Config.ssl.port, Config.ssl.bind, function(){
 		console.log('Server listening for https on ' + Config.ssl.bind + ':' + Config.ssl.port);
 	});
 }

@@ -48,6 +48,18 @@ require(__dirname + '/models');
 
 var app = express();
 app.configure(function() {
+	//Enable logging
+	if(Config.logging === true || DEBUG === true) {
+		app.use(express.logger());
+	}
+	
+	//Enable body parsing and method overriding
+	app.use(require('connect').bodyParser());
+	app.use(express.methodOverride());
+	
+	//Enable routing
+	app.use(app.router);
+	
 	//Enable static file serving
 	if(Config.serveApp === true) {
 		app.use(express.static(__dirname + '/../client'));
@@ -56,18 +68,10 @@ app.configure(function() {
 		});
 	}
 	
-	//Enable logging
-	if(Config.logging === true || DEBUG === true) {
-		app.use(express.logger());
-	}
-
-	//Initialize the api callbacks
-	require(__dirname + '/api').init(app);
-	
 	//Enable error handling
 	app.use(function(req, res, next) {
 		res.statusCode = 404;
-		res.sendFile(__dirname + '/errors/404.html');
+		res.sendfile(__dirname + '/errors/404.html');
 	});
 	if(DEBUG) {
 		app.use(expressError.express3({contextLinesCount: 3, handleUncaughtException: true}));
@@ -75,10 +79,15 @@ app.configure(function() {
 	else {
 		app.use(function(err, req, res, next) {
 			res.statusCode = 500;
-			res.sendFile(__dirname + '/errors/500.html');
+			res.sendfile(__dirname + '/errors/500.html');
 		});
 	}
 });
+//Initialize authentication
+require(__dirname + '/auth').init(app, Config);
+
+//Initialize the api callbacks
+require(__dirname + '/api').init(app);
 
 //Start webapp
 if('ssl' in Config && 'enabled' in Config.ssl && 'key' in Config.ssl && 'cert' in Config.ssl && Config.ssl.enabled == true) {

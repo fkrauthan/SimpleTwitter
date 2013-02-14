@@ -3,5 +3,9 @@
 	"mongoose": {
 		"uri": "mongodb://localhost/SimpleTwitter",
 		"options": {}
+	},
+	"auth": {
+		"expires": "2 hours",
+		"salt": "123IamNotSecure"
 	}
 }

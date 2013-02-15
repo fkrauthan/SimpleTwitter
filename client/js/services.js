@@ -24,9 +24,8 @@ angular.module('simpleTwitter.services', [])
 						$token = {
 							'token': data.authToken,
 							'expireTime': data.expireTime,
-							'authentication': window.btoa(data.user.username+':'+data.authToken+':'+data.expireTime)
+							'authorization': window.btoa(data.user.username+':'+data.authToken+':'+data.expireTime)
 						};
-						console.log($token);
 						
 						$user = user;
 						$rootScope.$broadcast('login', [$user]);
@@ -35,12 +34,18 @@ angular.module('simpleTwitter.services', [])
 					})
 					.error(function(data, status, headers, config) {
 						onError(data.error);
-						console.log('Login error: '+data.error);
+						console.log('Login error: ' + data.error);
 					});
 			},
 			'logout': function(callback) {
-				//TODO call webservice
-				//TODO delete rememberMe Cookie
+				$http.get(API_URL + '/logout', {'headers': {'Authorization': $token.authorization}})
+					.success(function(data, status, headers, config) {
+						console.log('Logout was successfull');
+						
+					})
+					.error(function(data, status, headers, config) {
+						console.log('Logout error' + data.error);
+					});
 
 				$rootScope.$broadcast('logout', [$user]);
 				$user = null;

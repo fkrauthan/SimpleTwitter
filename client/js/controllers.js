@@ -58,7 +58,6 @@ function LoginController($scope, $location, User) {
 		$scope.isLoginError = false;
 		$scope.$safeApply($scope);
 
-		//TODO call service to authenticate the user
 		User.login($scope.username, $scope.password, $scope.rememberMe, function(user) {
 			$location.path('/home');
 		}, function(error) {

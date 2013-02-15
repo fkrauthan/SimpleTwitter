@@ -11,25 +11,32 @@ angular.module('simpleTwitter.services', [])
 			return nowTime;
 		};
 	}])
-	.factory('User', function($rootScope) {
+	.factory('User', function($rootScope, $http) {
 		var $user = null;
+		var $token = null;
 
 		return {
 			'login': function(username, password, rememberMe, onSuccess, onError) {
-				//TODO call webservice
-				//TODO store rememberMe cookie
-				var user = {
-					'username': username,
-					'fullName': username+' Mustermann',
-					'email': username+'@localhost.local',
-					'id': '000',
-					'token': '1234'
-				};
-
-				$user = user;
-				$rootScope.$broadcast('login', [$user]);
-
-				onSuccess(true, user);
+				$http.post(API_URL + '/login', {'username': username, 'password': password})
+					.success(function(data, status, headers, config) {
+						var user = data.user;
+						
+						$token = {
+							'token': data.authToken,
+							'expireTime': data.expireTime,
+							'authentication': window.btoa(data.user.username+':'+data.authToken+':'+data.expireTime)
+						};
+						console.log($token);
+						
+						$user = user;
+						$rootScope.$broadcast('login', [$user]);
+						
+						onSuccess(true, user);
+					})
+					.error(function(data, status, headers, config) {
+						onError(data.error);
+						console.log('Login error: '+data.error);
+					});
 			},
 			'logout': function(callback) {
 				//TODO call webservice
@@ -37,6 +44,7 @@ angular.module('simpleTwitter.services', [])
 
 				$rootScope.$broadcast('logout', [$user]);
 				$user = null;
+				$token = null;
 
 				callback(true);
 			},

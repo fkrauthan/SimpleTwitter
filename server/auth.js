@@ -149,7 +149,14 @@ exports.init = function(app, Config) {
 				req.authToken = authToken;
 				TokenStorage[authToken] = true;
 				
-				return res.json({'authToken': authToken, 'expireTime': expireTime});
+				var respUser = {
+					'username': user.username,
+					'email': user.email,
+					'name': user.name,
+					'registered': user.registered
+				}
+				
+				return res.json({'authToken': authToken, 'expireTime': expireTime, 'user': respUser});
 			});
 		});
 	});

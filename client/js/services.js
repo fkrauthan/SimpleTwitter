@@ -16,6 +16,21 @@ angular.module('simpleTwitter.services', [])
 		var $token = null;
 
 		return {
+			'checkForAuthorization': function() {
+				if(($user == null || token === null) && typeof(Storage) !== 'undefined') {
+					var token = JSON.parse(localStorage.getItem('token'));
+					if(token == null || (token != null && token.expireTime<new Date().getTime())) {
+						return false;
+					}
+					
+					$user = JSON.parse(localStorage.getItem('user'));
+					$token = token;
+					
+					$rootScope.$broadcast('login', [$user]);
+					return true;
+				}
+				return false;
+			},
 			'login': function(username, password, rememberMe, onSuccess, onError) {
 				$http.post(API_URL + '/login', {'username': username, 'password': password})
 					.success(function(data, status, headers, config) {
@@ -29,6 +44,11 @@ angular.module('simpleTwitter.services', [])
 						
 						$user = user;
 						$rootScope.$broadcast('login', [$user]);
+						
+						if(typeof(Storage) !== 'undefined') {
+							localStorage.setItem('user', JSON.stringify($user));
+							localStorage.setItem('token', JSON.stringify($token));
+						}
 						
 						onSuccess(true, user);
 					})
@@ -44,12 +64,17 @@ angular.module('simpleTwitter.services', [])
 						
 					})
 					.error(function(data, status, headers, config) {
-						console.log('Logout error' + data.error);
+						console.log('Logout error: ' + data.error);
 					});
 
 				$rootScope.$broadcast('logout', [$user]);
 				$user = null;
 				$token = null;
+				
+				if(typeof(Storage) !== 'undefined') {
+					localStorage.removeItem('user');
+					localStorage.removeItem('token');
+				}
 
 				callback(true);
 			},

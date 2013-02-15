@@ -43,7 +43,7 @@ angular.module('simpleTwitter', ['simpleTwitter.filters', 'simpleTwitter.service
 		};
 
 		$rootScope.$on('$routeChangeStart', function(event, next, current) {
-			if(!User.isLoggedIn()) {
+			if(!User.isLoggedIn() && !User.checkForAuthorization()) {
 				if(!inArray(next.templateUrl, allowedUrls)) {
 					//TODO Check for autlogin
 					//TODO save next target

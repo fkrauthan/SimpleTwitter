@@ -3,3 +3,6 @@
 
 #NodeJS packages
 server/node_modules
+
+#Client config
+client/config.js

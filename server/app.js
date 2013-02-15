@@ -8,6 +8,8 @@ var https = require('https');
 
 var mongoose = require('mongoose');
 
+var path = require('path');
+
 
 //----------------------------------------------------------------------
 // Configuration
@@ -63,9 +65,6 @@ app.configure(function() {
 	//Enable static file serving
 	if(Config.serveApp === true) {
 		app.use(express.static(__dirname + '/../client'));
-		app.get('/', function(req, res) {
-			res.sendFile(__dirname + '/../client/index.html');
-		});
 	}
 	
 	//Enable error handling
@@ -83,6 +82,21 @@ app.configure(function() {
 		});
 	}
 });
+
+//Enable static index serving
+if(Config.serveApp === true) {
+	app.get('/', function(req, res) {
+		res.sendfile(path.normalize(__dirname + '/../client/index.html'));
+	});
+}
+
+//Enable static config serving
+app.get('/config.js', function(req, res) {
+	console.log(req.path);
+	res.setHeader('Content-Type', 'application/javascript');
+	res.send('var API_URL = \'' + req.protocol + '://' + req.host + ':' + (req.secure ? Config.ssl.port : Config.port) + '/api\';');
+});
+
 //Initialize authentication
 require(__dirname + '/auth').init(app, Config);
 

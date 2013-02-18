@@ -102,25 +102,5 @@ function HomeController($scope, Tweets) {
 	$scope.$on('tweetAdded', function() {
 		$scope.$safeApply($scope);
 	});
-
-	setTimeout(function() {
-		Tweets.add(
-			{
-				'author': {
-					'username': 'fkrauthan',
-					'fullName': 'Florian Krauthan'
-				},
-				'message': 'NEW Hallo Welt 123 das ist mein Tweet mit @fun Und #Hashtag',
-				'mentions': [
-					'fun'
-				],
-				'hashTags': [
-					'Hashtag'
-				],
-				'submitted': true,
-				'timestamp': new Date()
-			}
-		);
-	}, 2000);
 }
 HomeController.$inject = ['$scope', 'Tweets'];

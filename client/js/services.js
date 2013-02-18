@@ -103,7 +103,7 @@ angular.module('simpleTwitter.services', [])
 		Tweets.prototype.load = function() {
 			this.init = true;
 
-			var tweets = [
+			/*var tweets = [
 				{
 					'author': {
 						'username': 'fkrauthan',
@@ -150,7 +150,7 @@ angular.module('simpleTwitter.services', [])
 					'timestamp': new Date('2010-07-17T09:24:17Z')
 				}
 			];
-			this.add(tweets);
+			this.add(tweets);*/
 
 			//TODO call webservice
 		};

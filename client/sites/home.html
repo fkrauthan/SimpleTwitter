@@ -27,6 +27,9 @@
                     </div>
                 </div>
             </div>
+            <div data-ng-show="tweets.length == 0">
+				<p>There are no tweets at the moment. Let's start tweeting :)</p>
+            </div>
         </div>
     </div>
     <div class="span4" data-ng-controller="TweetSendController">

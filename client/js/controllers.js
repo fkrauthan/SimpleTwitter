@@ -16,6 +16,7 @@ function NavbarController($scope, $location) {
 		var currentRoute = $location.path().substring(1);
 		return page === currentRoute ? 'active' : '';
 	};
+	$scope.registrationEnabled = REGISTRATION_ENABLED;
 
 	//Handling login event
 	$scope.$on('login', function(event, args) {
@@ -64,6 +65,51 @@ function LoginController($scope, $location, User) {
 			$scope.isLoginError = true;
 			$scope.$safeApply($scope);
 		});
+	};
+}
+LoginController.$inject = ['$scope', '$location', 'User'];
+
+/**
+ * Site controller
+ */
+function RegisterController($scope, $location, User) {
+	$scope.user = {
+		'username' : '',
+		'email': '',
+		'name': '',
+		'password': '',
+		'passwordRepeated': ''
+	};
+	$scope.errorMessage = '';
+	
+	$scope.doSignUp = function() {
+		if($scope.user.password != $scope.user.passwordRepeated) {
+			$scope.errorMessage = 'The password\'s do not match!';
+		}
+		else {
+			$scope.errorMessage = '';
+			
+			User.register({
+				'username': $scope.user.username,
+				'email': $scope.user.email,
+				'name': $scope.user.name,
+				'password': $scope.user.password
+			}, function() {
+				$scope.user = {
+					'username' : '',
+					'email': '',
+					'name': '',
+					'password': '',
+					'passwordRepeated': ''
+				};
+				
+				alert('Your registration was successful. You can sign in to your account.');
+				$location.path('/login');
+			}, function(err) {
+				$scope.errorMessage = err;
+				$scope.$safeApply($scope);
+			});		
+		}
 	};
 }
 LoginController.$inject = ['$scope', '$location', 'User'];

@@ -7,6 +7,7 @@ angular.module('simpleTwitter', ['simpleTwitter.filters', 'simpleTwitter.service
 			.when('/', {redirectTo: '/login'})
 
 			.when('/login', {templateUrl: 'sites/login.html', controller: LoginController})
+			.when('/register', {templateUrl: 'sites/register.html', controller: RegisterController})
 			.when('/logout', {templateUrl: 'sites/logout.html', controller: LogoutController})
 
 			.when('/about', {templateUrl: 'sites/about.html', controller: AboutController})
@@ -19,6 +20,7 @@ angular.module('simpleTwitter', ['simpleTwitter.filters', 'simpleTwitter.service
 	.run(function($rootScope, $location, User) {
 		var allowedUrls = [
 			'sites/login.html',
+			'sites/register.html',
 			'sites/about.html',
 			'sites/404.html'
 		];

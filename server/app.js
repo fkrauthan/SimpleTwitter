@@ -36,6 +36,10 @@ if(!('printPort' in Config)) {
 	Config.printPort = true;
 }
 
+if(!('registration' in Config)) {
+	Config.registration = false;
+}
+
 
 global.DEBUG = process.env.NODE_ENV == 'development';
 
@@ -120,10 +124,11 @@ app.get('/config.js', function(req, res) {
 	res.setHeader('Content-Type', 'application/javascript');
 	
 	var ret = 'var API_URL = \'' + req.protocol + '://' + req.host;
-	if(Config.portPort) {
+	if(Config.printPort) {
 		ret += ':' + (req.secure ? Config.ssl.port : Config.port);
 	}
 	ret += '/api\';';
+	ret += 'var REGISTRATION_ENABLED='+Config.registration+';';
 	
 	res.send(ret);
 });
@@ -132,7 +137,7 @@ app.get('/config.js', function(req, res) {
 require(__dirname + '/auth').init(app, Config);
 
 //Initialize the api callbacks
-require(__dirname + '/api').init(app);
+require(__dirname + '/api').init(app, Config);
 
 //Start webapp
 if('ssl' in Config && 'enabled' in Config.ssl && 'key' in Config.ssl && 'cert' in Config.ssl && Config.ssl.enabled == true) {

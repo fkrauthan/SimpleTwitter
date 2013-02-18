@@ -33,7 +33,7 @@ var Tweet = mongoose.model('Tweet', TweetSchema);
 
 //Handler
 UserSchema.pre('save', function(next, done) {
-	TweetSchema.update({author: {userId: this.id}}, {author: {username: this.username, name: this.name}}, {multi: true}, function(err, numberAffected, raw) {
+	Tweet.update({author: {userId: this.id}}, {author: {username: this.username, name: this.name}}, {multi: true}, function(err, numberAffected, raw) {
 		console.log('[Tweet] The number of updated documents was %d', numberAffected);
 		next(err);
 	});

@@ -1,0 +1,34 @@
+
+<div class="container">
+    <div class="row">
+        <div class="span6 offset3 well">
+            <legend>Please Sign Up</legend>
+            <div class="alert alert-error" data-ng-show="errorMessage.length > 0">
+                {{ errorMessage }}
+            </div>
+            <form name="loginForm" data-ng-submit="doSignUp()">
+                <div class="input-prepend">
+                    <span class="add-on"><i class="icon-tag"></i></span>
+                    <input type="text" id="username" class="span5" name="username" placeholder="Username" data-ng-model="user.username" required="required"/>
+                </div>
+                <div class="input-prepend">
+                    <span class="add-on"><i class="icon-envelope-alt"></i></span>
+                    <input type="email" id="email" class="span5" name="email" placeholder="E-Mail" data-ng-model="user.email" required="required"/>
+                </div>
+                <div class="input-prepend">
+                    <span class="add-on"><i class="icon-user"></i></span>
+                    <input type="text" id="name" class="span5" name="name" placeholder="Name" data-ng-model="user.name" required="required"/>
+                </div>
+                <div class="input-prepend">
+                    <span class="add-on"><i class="icon-key"></i></span>
+                    <input type="password" id="password" class="span5" name="password" placeholder="Password" data-ng-model="user.password" required="required"/>
+                </div>
+                <div class="input-prepend">
+                    <span class="add-on"><i class="icon-key"></i></span>
+                    <input type="password" id="passwordRepeated" class="span5" name="passwordRepeated" placeholder="Password repeated" data-ng-model="user.passwordRepeated" required="required"/>
+                </div>
+                <button type="submit" name="submit" class="btn btn-primary span5"><i class="icon-road"></i> Sign up</button>
+            </form>
+        </div>
+    </div>
+</div>

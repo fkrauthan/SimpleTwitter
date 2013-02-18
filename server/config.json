@@ -7,5 +7,6 @@
 	"auth": {
 		"expires": "2 hours",
 		"salt": "123IamNotSecure"
-	}
+	},
+	"registration": true
 }

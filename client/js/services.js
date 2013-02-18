@@ -57,6 +57,17 @@ angular.module('simpleTwitter.services', [])
 						console.log('Login error: ' + data.error);
 					});
 			},
+			'register': function(user, onSuccess, onError) {
+				$http.post(API_URL + '/users', user)
+					.success(function(data, status, headers, config) {
+						onSuccess();
+						console.log('Registration successful');
+					})
+					.error(function(data, status, headers, config) {
+						onError(data.error);
+						console.log('Registration error: ' + data.error);
+					});
+			},
 			'logout': function(callback) {
 				$http.get(API_URL + '/logout', {'headers': {'Authorization': $token.authorization}})
 					.success(function(data, status, headers, config) {

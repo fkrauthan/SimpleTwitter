@@ -32,6 +32,10 @@ if(!('logging' in Config)) {
 	Config.logging = false;
 }
 
+if(!('printPort' in Config)) {
+	Config.printPort = true;
+}
+
 
 global.DEBUG = process.env.NODE_ENV == 'development';
 
@@ -47,6 +51,8 @@ if('VMC_APP_PORT' in process.env) {
 	//Overwrite port and host
 	Config.port = process.env.VMC_APP_PORT
 	Config.bind = '0.0.0.0';
+	
+	Config.printPort = false;
 }
 if('MONGOLAB_URI' in process.env) {
 	Config.mongoose.options = null;
@@ -112,7 +118,14 @@ if(Config.serveApp === true) {
 app.get('/config.js', function(req, res) {
 	console.log(req.path);
 	res.setHeader('Content-Type', 'application/javascript');
-	res.send('var API_URL = \'' + req.protocol + '://' + req.host + ':' + (req.secure ? Config.ssl.port : Config.port) + '/api\';');
+	
+	var ret = 'var API_URL = \'' + req.protocol + '://' + req.host;
+	if(Config.portPort) {
+		ret += ':' + (req.secure ? Config.ssl.port : Config.port);
+	}
+	ret += '/api\';';
+	
+	res.send(ret);
 });
 
 //Initialize authentication
@@ -154,4 +167,3 @@ if('ssl' in Config && 'enabled' in Config.ssl && 'key' in Config.ssl && 'cert' i
 var server = http.createServer(app).listen(Config.port, Config.bind, function(){
 	console.log('Server listening for http on ' + Config.bind + ':' + Config.port);
 });
-

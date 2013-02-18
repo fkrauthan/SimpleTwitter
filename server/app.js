@@ -37,6 +37,24 @@ global.DEBUG = process.env.NODE_ENV == 'development';
 
 
 //----------------------------------------------------------------------
+// Configuration if appfog deployment
+//----------------------------------------------------------------------
+if('VMC_APP_PORT' in process.env) {
+	//Disable ssl
+	if('ssl' in Config) {
+		delete Config.ssl;
+	}
+	//Overwrite port and host
+	Config.port = process.env.VMC_APP_PORT
+	Config.bind = '0.0.0.0';
+}
+if('MONGOLAB_URI' in process.env) {
+	Config.mongoose.options = null;
+	Config.mongoose.uri = process.env.MONGOLAB_URI;
+}
+
+
+//----------------------------------------------------------------------
 // Setup the database connection
 //----------------------------------------------------------------------
 mongoose.connect(Config.mongoose.uri, Config.mongoose.options);
@@ -56,7 +74,7 @@ app.configure(function() {
 	}
 	
 	//Enable body parsing and method overriding
-	app.use(require('connect').bodyParser());
+	app.use(express.bodyParser());
 	app.use(express.methodOverride());
 	
 	//Enable routing

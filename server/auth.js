@@ -75,7 +75,7 @@ function checkAuthentication(req, res, callback) {
 		token = parts[1];
 		expireTime = parts[2];
 	
-	if(!(token in TokenStorage)) {
+	if(!DEBUG && !(token in TokenStorage)) {
 		return callback('Auth token is invalid', null);
 	}
 	
@@ -147,7 +147,9 @@ exports.init = function(app, Config) {
 					return res.json({'error': 'Couldn\'t create auth token'}, 500);
 				}
 				req.authToken = authToken;
-				TokenStorage[authToken] = true;
+				if(!DEBUG) {
+					TokenStorage[authToken] = true;
+				}
 				
 				var respUser = {
 					'username': user.username,
@@ -161,8 +163,9 @@ exports.init = function(app, Config) {
 		});
 	});
 	app.get('/api/logout', authenticate, function(req, res) {
-		delete TokenStorage[req.authToken];
-		
+		if(!DEBUG) {
+			delete TokenStorage[req.authToken];
+		}
 		return res.json({'loggedout': true});
 	});
 	

@@ -83,10 +83,17 @@ angular.module('simpleTwitter.services', [])
 			},
 			'isLoggedIn': function() {
 				return $user!=null;
+			},
+			'getUsername': function() {
+				if($user == null) return null;
+				return $user.username;
+			},
+			'getAPIAuthorizationHeader': function() {
+				return {'headers': {'Authorization': $token.authorization}};
 			}
 		};
 	})
-	.factory('Tweets', ['$rootScope', 'User', function($rootScope, User) {
+	.factory('Tweets', ['$rootScope', '$http', 'User', function($rootScope, $http, User) {
 		function Tweets() {
 			this.tweets = [];
 			this.init = false;
@@ -103,56 +110,22 @@ angular.module('simpleTwitter.services', [])
 		Tweets.prototype.load = function() {
 			this.init = true;
 
-			/*var tweets = [
-				{
-					'author': {
-						'username': 'fkrauthan',
-						'fullName': 'Florian Krauthan'
-					},
-					'message': 'Hallo Welt 123 das ist mein Tweet mit @fun Und #Hashtag',
-					'mentions': [
-						'fun'
-					],
-					'hashTags': [
-						'Hashtag'
-					],
-					'submitted': true,
-					'timestamp': new Date('2012-07-17T09:24:17Z')
-				},
-				{
-					'author': {
-						'username': 'fkrauthan',
-						'fullName': 'Florian Krauthan'
-					},
-					'message': '2Hallo Welt 123 das ist mein Tweet mit @fun Und #Hashtag',
-					'mentions': [
-						'fun'
-					],
-					'hashTags': [
-						'Hashtag'
-					],
-					'submitted': true,
-					'timestamp': new Date('2011-07-17T09:24:17Z')
-				},
-				{
-					'author': {
-						'username': 'fkrauthan',
-						'fullName': 'Florian Krauthan'
-					},
-					'message': '3Hallo Welt 123 das ist mein Tweet mit @fun Und #Hashtag',
-					'mentions': [
-						'fun'
-					],
-					'hashTags': [
-						'Hashtag'
-					],
-					'submitted': true,
-					'timestamp': new Date('2010-07-17T09:24:17Z')
-				}
-			];
-			this.add(tweets);*/
-
-			//TODO call webservice
+			var ctx = this;
+			$http.get(API_URL + '/users/' + User.getUsername() + '/tweets', User.getAPIAuthorizationHeader())
+				.success(function(data, status, headers, config) {
+					for(var i=0; i<data.tweets.length; i++) {
+						var tweet = data.tweets[i];
+						tweet.submitted = true;
+						tweet.mentions = ctx.parseMentions(tweet.message);
+						tweet.hashTags = ctx.parseHashTags(tweet.message);
+					}
+					ctx.add(data.tweets);
+						
+					console.log('Tweets sucessfully lodaded');
+				})
+				.error(function(data, status, headers, config) {
+					console.log('There was an error while loading tweets: ' + data.error);
+				});
 		};
 		Tweets.prototype.add = function(data) {
 			if(data instanceof Array) {
@@ -173,8 +146,6 @@ angular.module('simpleTwitter.services', [])
 			return this.tweets;
 		};
 		Tweets.prototype.send = function(message) {
-			//TODO call webservice
-
 			var user = User.getUser();
 			var tweet = {
 				'author': {
@@ -188,6 +159,18 @@ angular.module('simpleTwitter.services', [])
 				'timestamp': new Date()
 			};
 			this.add(tweet);
+			
+			$http.post(API_URL + '/users/' + User.getUsername() + '/tweets', {'message': message}, User.getAPIAuthorizationHeader())
+				.success(function(data, status, headers, config) {
+					tweet.message = data.tweet.message;
+					tweet.timestamp = data.tweet.timestamp;
+					tweet.submitted = true;
+					
+					console.log('Tweets sucessfully submited');
+				})
+				.error(function(data, status, headers, config) {
+					console.log('There was an error while submiting tweet: ' + data.error);
+				});
 		};
 
 		Tweets.prototype.parseMentions = function(message) {

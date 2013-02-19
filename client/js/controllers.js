@@ -54,14 +54,18 @@ function LoginController($scope, $location, User) {
 	$scope.password = '';
 	$scope.rememberMe = false;
 	$scope.isLoginError = false;
+	$scope.signinInProgress = false;
 	
 	$scope.doLogin = function() {
 		$scope.isLoginError = false;
+		$scope.signinInProgress = true;
 		$scope.$safeApply($scope);
 
 		User.login($scope.username, $scope.password, $scope.rememberMe, function(user) {
+			$scope.signinInProgress = false;
 			$location.path('/home');
 		}, function(error) {
+			$scope.signinInProgress = false;
 			$scope.isLoginError = true;
 			$scope.$safeApply($scope);
 		});
@@ -81,6 +85,7 @@ function RegisterController($scope, $location, User) {
 		'passwordRepeated': ''
 	};
 	$scope.errorMessage = '';
+	$scope.signupInProgress = false;
 	
 	$scope.doSignUp = function() {
 		if($scope.user.password != $scope.user.passwordRepeated) {
@@ -88,6 +93,7 @@ function RegisterController($scope, $location, User) {
 		}
 		else {
 			$scope.errorMessage = '';
+			$scope.signupInProgress = true;
 			
 			User.register({
 				'username': $scope.user.username,
@@ -95,6 +101,8 @@ function RegisterController($scope, $location, User) {
 				'name': $scope.user.name,
 				'password': $scope.user.password
 			}, function() {
+				$scope.signupInProgress = false;
+				
 				$scope.user = {
 					'username' : '',
 					'email': '',
@@ -106,13 +114,15 @@ function RegisterController($scope, $location, User) {
 				alert('Your registration was successful. You can sign in to your account.');
 				$location.path('/login');
 			}, function(err) {
+				$scope.signupInProgress = false;
+				
 				$scope.errorMessage = err;
 				$scope.$safeApply($scope);
 			});		
 		}
 	};
 }
-LoginController.$inject = ['$scope', '$location', 'User'];
+RegisterController.$inject = ['$scope', '$location', 'User'];
 
 
 function LogoutController($location, User) {

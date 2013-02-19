@@ -5,3 +5,6 @@
 .scrollToTop:hover {
     text-decoration: none;
 }
+.formLoadIndicator {
+	margin-left: 0.5em;
+}

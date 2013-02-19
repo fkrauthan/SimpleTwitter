@@ -18,7 +18,7 @@
                 <label class="checkbox">
                     <input type="checkbox" name="remember" value="1" data-ng-model="rememberMe"> Remember Me
                 </label>
-                <button type="submit" name="submit" class="btn btn-primary span5"><i class="icon-signin"></i> Sign in</button>
+                <button type="submit" name="submit" class="btn btn-primary span5" data-ng-class="{disabled: signinInProgress}"><i class="icon-signin"></i> Sign in</button> <i data-ng-show="signinInProgress" class="icon-spinner icon-spin icon-2x formLoadIndicator"></i>
             </form>
         </div>
     </div>

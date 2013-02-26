@@ -231,7 +231,7 @@ angular.module('simpleTwitter.services', [])
 				'mentions': this.parseMentions(message),
 				'hashTags': this.parseHashTags(message),
 				'submitted': false,
-				'timestamp': new Date()
+				'timestamp': moment.utc().format()
 			};
 			this.add(tweet);
 			

@@ -35,7 +35,7 @@
     <div class="span4" data-ng-controller="TweetSendController">
         <div class="well">
             <form data-ng-submit="sendMessage()">
-                <textarea class="input-block-level" id="newMessage" name="newMessage" placeholder="Type in your message" rows="5" data-ng-model="newMessage" data-tweet-length="newMessage" data-max-length="maxMessageLength" required="required"></textarea>
+                <textarea class="input-block-level" id="newMessage" name="newMessage" placeholder="Type in your message" rows="5" data-ng-model="newMessage" data-tweet-length="newMessage" data-max-length="maxMessageLength" data-ng-change="messageChanged()" required="required"></textarea>
                 <h6 class="pull-right">
                     <span data-ng-pluralize data-count="newMessageCharsLeft" data-when="{'0': '0 characters',
                         'one': '1 character',
@@ -44,7 +44,7 @@
                     </span>
                     remaining
                 </h6>
-                <button class="btn btn-info" type="submit"><i class="icon-bullhorn"></i> Post New Message</button>
+                <button class="btn btn-info" type="submit" data-ng-class="{disabled: !sendAllowed}"><i class="icon-bullhorn"></i> Post New Message</button>
             </form>
         </div>
     </div>

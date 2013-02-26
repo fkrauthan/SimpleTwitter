@@ -160,3 +160,42 @@ function HomeController($scope, Tweets) {
 	});
 }
 HomeController.$inject = ['$scope', 'Tweets'];
+
+
+function UsersController($scope, Users) {
+	$scope.users = Users.getAll();
+	
+	$scope.follow = function(user) {
+		if(user._processing) {
+			return;
+		}
+		
+		user._follow = true;
+		user._processing = true;
+		
+		Users.follow(user, function() {
+			user._processing = false;
+		}, function(err) {
+			user._follow = false;
+			user._processing = false;
+			alert('There was an error while following a user');
+		});
+	};
+	$scope.unfollow = function(user) {
+		if(user._processing) {
+			return;
+		}
+		
+		user._follow = false;
+		user._processing = true;
+		
+		Users.unfollow(user, function() {
+			user._processing = false;
+		}, function(err) {
+			user._follow = true;
+			user._processing = false;
+			alert('There was an error while unfollowing a user');
+		});
+	};
+}
+UsersController.$inject = ['$scope', 'Users'];

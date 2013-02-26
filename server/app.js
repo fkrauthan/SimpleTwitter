@@ -68,6 +68,7 @@ if('MONGOLAB_URI' in process.env) {
 // Setup the database connection
 //----------------------------------------------------------------------
 mongoose.connect(Config.mongoose.uri, Config.mongoose.options);
+mongoose.set('debug', true);
 
 require(__dirname + '/models');
 

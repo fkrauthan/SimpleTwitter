@@ -104,6 +104,70 @@ angular.module('simpleTwitter.services', [])
 			}
 		};
 	})
+	.factory('Users', ['$rootScope', '$http', 'User', function($rootScope, $http, User) {
+		function Users() {
+			this.users = [];
+			this.init = false;
+			
+			var ctx = this;
+			$rootScope.$on('login', function(event, args) {
+				ctx.load();
+			});
+			$rootScope.$on('logout', function(event, args) {
+				ctx.users = [];
+				ctx.init = false;
+			});
+		}
+		Users.prototype.load = function() {
+			this.init = true;
+
+			var ctx = this;
+			$http.get(API_URL + '/users', User.getAPIAuthorizationHeader())
+				.success(function(data, status, headers, config) {
+					ctx.users.splice(0, ctx.users.length);
+					for(var i=0; i<data.users.length; i++) {
+						if(data.users[i].username === User.getUsername()) {
+							continue;
+						}
+						ctx.users.push(data.users[i]);
+					}
+					console.log('Users sucessfully lodaded');
+				})
+				.error(function(data, status, headers, config) {
+					console.log('There was an error while loading users: ' + data.error);
+				});
+		};
+		Users.prototype.follow = function(user, onSuccess, onError) {
+			var ctx = this;
+			$http.put(API_URL + '/users/' + user.username + '/follow', {}, User.getAPIAuthorizationHeader())
+				.success(function(data, status, headers, config) {
+					onSuccess();
+				})
+				.error(function(data, status, headers, config) {
+					console.log('There was an error while following a user: ' + data.error);
+					onError(data.error);
+				});
+		};
+		Users.prototype.unfollow = function(user, onSuccess, onError) {
+			var ctx = this;
+			$http.put(API_URL + '/users/' + user.username + '/unfollow', {}, User.getAPIAuthorizationHeader())
+				.success(function(data, status, headers, config) {
+					onSuccess();
+				})
+				.error(function(data, status, headers, config) {
+					console.log('There was an error while unfollowing a user: ' + data.error);
+					onError(data.error);
+				});
+		};
+		Users.prototype.getAll = function() {
+			if(!this.init) {
+				this.load();
+			}
+			return this.users;
+		};
+		
+		return new Users();
+	}])
 	.factory('Tweets', ['$rootScope', '$http', 'User', function($rootScope, $http, User) {
 		function Tweets() {
 			this.tweets = [];
@@ -122,7 +186,7 @@ angular.module('simpleTwitter.services', [])
 			this.init = true;
 
 			var ctx = this;
-			$http.get(API_URL + '/users/' + User.getUsername() + '/tweets', User.getAPIAuthorizationHeader())
+			$http.get(API_URL + '/users/' + User.getUsername() + '/dashboard', User.getAPIAuthorizationHeader())
 				.success(function(data, status, headers, config) {
 					for(var i=0; i<data.tweets.length; i++) {
 						var tweet = data.tweets[i];

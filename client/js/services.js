@@ -141,6 +141,7 @@ angular.module('simpleTwitter.services', [])
 			var ctx = this;
 			$http.put(API_URL + '/users/' + user.username + '/follow', {}, User.getAPIAuthorizationHeader())
 				.success(function(data, status, headers, config) {
+					$rootScope.$broadcast('follow', [user]);
 					onSuccess();
 				})
 				.error(function(data, status, headers, config) {
@@ -152,6 +153,7 @@ angular.module('simpleTwitter.services', [])
 			var ctx = this;
 			$http.put(API_URL + '/users/' + user.username + '/unfollow', {}, User.getAPIAuthorizationHeader())
 				.success(function(data, status, headers, config) {
+					$rootScope.$broadcast('unfollow', [user]);
 					onSuccess();
 				})
 				.error(function(data, status, headers, config) {
@@ -181,13 +183,23 @@ angular.module('simpleTwitter.services', [])
 				ctx.tweets = [];
 				ctx.init = false;
 			});
+			
+			$rootScope.$on('follow', function(event, args) {
+				ctx.load(true);
+			});
+			$rootScope.$on('unfollow', function(event, args) {
+				ctx.load(true);
+			});
 		}
-		Tweets.prototype.load = function() {
+		Tweets.prototype.load = function(clear) {
 			this.init = true;
 
 			var ctx = this;
 			$http.get(API_URL + '/users/' + User.getUsername() + '/dashboard', User.getAPIAuthorizationHeader())
 				.success(function(data, status, headers, config) {
+					if(clear) {
+						ctx.tweets.slice(0, ctx.tweets.length);
+					}
 					for(var i=0; i<data.tweets.length; i++) {
 						var tweet = data.tweets[i];
 						tweet.submitted = true;

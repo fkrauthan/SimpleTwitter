@@ -8,10 +8,15 @@ angular.module('simpleTwitter.directives', [])
 				maxLength = scope[maxLength];
 			}
 			scope.$watch(attrs.tweetLength, function(value) {
-				if(value && value.length > maxLength) {
-					scope[attrs.tweetLength] = value.substr(0, maxLength);
+				if(value) {
+					if(value.length > maxLength) {
+						scope[attrs.tweetLength] = value.substr(0, maxLength);
+					}
+					scope[attrs.tweetLength+'CharsLeft'] = maxLength - value.length;
 				}
-				scope[attrs.tweetLength+'CharsLeft'] = maxLength - value.length;
+				else {
+					scope[attrs.tweetLength+'CharsLeft'] = maxLength;
+				}
 			});
 			scope[attrs.tweetLength+'CharsLeft'] = maxLength;
 		};

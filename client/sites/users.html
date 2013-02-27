@@ -9,10 +9,16 @@
 <div class="row">
     <div class="span6">
 		<fieldset>
-			<legend>Not following</legend>
+			<legend>
+				Not following
+				<div class="input-prepend pull-right">
+					<span class="add-on"><b class="icon-search"></b></span>
+					<input class="" type="text" name="filterNonFollowers" value="" placeholder="Search..." data-ng-model="noFollowerQuery" />
+				</div>
+			</legend>
 			
 			<div class="users">
-				<div class="user well" data-ng-repeat="user in users | orderBy: 'username' : false" data-ng-hide="user._follow">
+				<div class="user well" data-ng-repeat="user in users | filter: noFollowerQuery | orderBy: 'username' : false" data-ng-hide="user._follow">
 					<div class="media">
 						<a class="pull-left" href="#/u/{{ user.username }}">
 							<img class="media-object" src="http://placehold.it/64x64" />
@@ -30,10 +36,16 @@
 	</div>
 	<div class="span6">
 		<fieldset>
-			<legend>Following</legend>
+			<legend>
+				Following
+				<div class="input-prepend pull-right">
+					<span class="add-on"><b class="icon-search"></b></span>
+					<input class="" type="text" name="filterNonFollowers" value="" placeholder="Search..." data-ng-model="followerQuery" />
+				</div>
+			</legend>
 			
 			<div class="users">
-				<div class="user well" data-ng-repeat="user in users | orderBy: 'username' : false" data-ng-show="user._follow">
+				<div class="user well" data-ng-repeat="user in users | filter: followerQuery | orderBy: 'username' : false" data-ng-show="user._follow">
 					<div class="media">
 						<a class="pull-left" href="#/u/{{ user.username }}">
 							<img class="media-object" src="http://placehold.it/64x64" />

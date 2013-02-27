@@ -174,7 +174,6 @@ angular.module('simpleTwitter.services', [])
 		function Tweets() {
 			this.tweets = [];
 			this.init = false;
-			this.loadCount = 0;
 
 			var ctx = this;
 			$rootScope.$on('login', function(event, args) {
@@ -194,16 +193,12 @@ angular.module('simpleTwitter.services', [])
 		}
 		Tweets.prototype.load = function(clear) {
 			this.init = true;
-			this.loadCount += 1;
-			if(this.loadCount > 1) {
-				return;
-			}
 
 			var ctx = this;
 			$http.get(API_URL + '/users/' + User.getUsername() + '/dashboard', User.getAPIAuthorizationHeader())
 				.success(function(data, status, headers, config) {
 					if(clear) {
-						ctx.tweets.slice(0, ctx.tweets.length);
+						ctx.tweets.splice(0, ctx.tweets.length);
 					}
 					for(var i=0; i<data.tweets.length; i++) {
 						var tweet = data.tweets[i];
@@ -212,22 +207,10 @@ angular.module('simpleTwitter.services', [])
 						tweet.hashTags = ctx.parseHashTags(tweet.message);
 					}
 					ctx.add(data.tweets);
-					
-					if(ctx.loadCount > 1) {
-						ctx.loadCount = 0;
-						return ctx.load(clear);
-					}
-					ctx.loadCount = 0;
 						
 					console.log('Tweets sucessfully lodaded');
 				})
 				.error(function(data, status, headers, config) {
-					if(ctx.loadCount > 1) {
-						ctx.loadCount = 0;
-						return ctx.load(clear);
-					}
-					ctx.loadCount = 0;
-					
 					console.log('There was an error while loading tweets: ' + data.error);
 				});
 		};

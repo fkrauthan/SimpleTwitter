@@ -213,20 +213,20 @@ angular.module('simpleTwitter.services', [])
 					}
 					ctx.add(data.tweets);
 					
-					if(this.loadCount > 1) {
-						this.loadCount = 0;
-						return load(clear);
+					if(ctx.loadCount > 1) {
+						ctx.loadCount = 0;
+						return ctx.load(clear);
 					}
-					this.loadCount = 0;
+					ctx.loadCount = 0;
 						
 					console.log('Tweets sucessfully lodaded');
 				})
 				.error(function(data, status, headers, config) {
-					if(this.loadCount > 1) {
-						this.loadCount = 0;
-						return load(clear);
+					if(ctx.loadCount > 1) {
+						ctx.loadCount = 0;
+						return ctx.load(clear);
 					}
-					this.loadCount = 0;
+					ctx.loadCount = 0;
 					
 					console.log('There was an error while loading tweets: ' + data.error);
 				});

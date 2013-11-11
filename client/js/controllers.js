@@ -16,6 +16,10 @@ function NavbarController($scope, $location) {
 		var currentRoute = $location.path().substring(1);
 		return page === currentRoute ? 'active' : '';
 	};
+	$scope.navClassUser = function (page, user) {
+		var currentRoute = $location.path().substring(1);
+		return (page+'/'+user) === currentRoute ? 'active' : '';
+	};
 	$scope.registrationEnabled = REGISTRATION_ENABLED;
 
 	//Handling login event

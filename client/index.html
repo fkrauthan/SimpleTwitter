@@ -38,7 +38,8 @@
 									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu" role="menu">
-									<li data-ng-class="navClass('profile')"><a href="#/profile"><span class="glyphicon glyphicon-cog"></span> My Profile</a></li>
+									<li data-ng-class="navClassUser('u', user.username)"><a href="#/u/{{ user.username }}"><span class="glyphicon glyphicon-eye-open"></span> My Profile</a></li>
+									<li data-ng-class="navClass('settings')"><a href="#/settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
 									<li><a href="#/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 								</ul>
 							</div>

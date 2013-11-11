@@ -32,7 +32,7 @@ Just run within the `server` directory the command `npm install`.
 Running
 =======
 
-To run the server just go to the server directory and run `node app.js` to start the server. If you like to start the sever in development mode just run `NODE_ENV=development node app.js`.
+To run the server just go to the server directory and run `bin/server` to start the server. If you like to start the sever in development mode just run `NODE_ENV=development bin/server`.
 
 You can also run this command from the project root directory: `npm start`.
 

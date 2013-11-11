@@ -1,25 +1,39 @@
 
-<div class="container">
-    <div class="row">
-        <div class="span6 offset3 well">
-            <legend>Please Sign In</legend>
-            <div class="alert alert-error" data-ng-show="isLoginError">
-                Incorrect Username or Password!
-            </div>
-            <form name="loginForm" data-ng-submit="doLogin()">
-                <div class="input-prepend">
-                    <span class="add-on"><i class="icon-user"></i></span>
-                    <input type="text" id="username" class="span5" name="username" placeholder="Username" data-ng-model="username" required="required"/>
-                </div>
-                <div class="input-prepend">
-                    <span class="add-on"><i class="icon-key"></i></span>
-                    <input type="password" id="password" class="span5" name="password" placeholder="Password" data-ng-model="password" required="required"/>
-                </div>
-                <label class="checkbox">
-                    <input type="checkbox" name="remember" value="1" data-ng-model="rememberMe"> Remember Me
-                </label>
-                <button type="submit" name="submit" class="btn btn-primary span5" data-ng-class="{disabled: signinInProgress}"><i class="icon-signin"></i> Sign in</button> <i data-ng-show="signinInProgress" class="icon-spinner icon-spin icon-2x formLoadIndicator"></i>
-            </form>
-        </div>
-    </div>
+<div class="page-header">
+	<h1>Please Sign In</h1>
 </div>
+
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<div class="alert alert-danger" data-ng-show="isLoginError">
+			<strong>Error!</strong> Incorrect Username or Password!
+		</div>
+		
+		<div class="well">
+			<form name="loginForm" data-ng-submit="doLogin()" role="form">
+				<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+						<input type="text" id="username" class="form-control" name="username" placeholder="Username" data-ng-model="username" required="required"/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="input-group">
+						<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+						<input type="password" id="password" class="form-control" name="password" placeholder="Password" data-ng-model="password" required="required"/>
+					</div>
+				</div>
+	
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="remember" value="1" data-ng-model="rememberMe"> Remember Me
+					</label>
+				</div>
+
+				<button type="submit" name="submit" class="btn btn-primary col-xs-11" data-ng-class="{disabled: signinInProgress}"><span class="glyphicon glyphicon-log-in"></span> Sign in</button> <i data-ng-show="signinInProgress" class="icon-spinner icon-spin icon-2x formLoadIndicator"></i>
+			</form>
+		</div>
+	</div>
+</div>
+

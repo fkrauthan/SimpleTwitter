@@ -1,13 +1,10 @@
-<div class="row">
-    <div class="span12">
-        <div class="page-header">
-            <h1>Tweets</h1>
-        </div>
-    </div>
+
+<div class="page-header">
+	<h1>Tweets</h1>
 </div>
 
 <div class="row">
-    <div class="span8">
+    <div class="col-md-8">
         <div class="tweets">
             <div class="tweet well" data-ng-repeat="tweet in tweets | orderBy : 'timestamp' : true">
                 <div class="media">
@@ -32,19 +29,22 @@
             </div>
         </div>
     </div>
-    <div class="span4" data-ng-controller="TweetSendController">
+    <div class="col-md-4" data-ng-controller="TweetSendController">
         <div class="well">
             <form data-ng-submit="sendMessage()">
-                <textarea class="input-block-level" id="newMessage" name="newMessage" placeholder="Type in your message" rows="5" data-ng-model="newMessage" data-tweet-length="newMessage" data-max-length="maxMessageLength" data-ng-change="messageChanged()" required="required"></textarea>
-                <h6 class="pull-right">
-                    <span data-ng-pluralize data-count="newMessageCharsLeft" data-when="{'0': '0 characters',
-                        'one': '1 character',
-                        'other': '{} characters'}">
-                        XX characters
-                    </span>
-                    remaining
-                </h6>
-                <button class="btn btn-info" type="submit" data-ng-class="{disabled: !sendAllowed}"><i class="icon-bullhorn"></i> Post New Message</button>
+                <div class="form-group">
+					<textarea class="form-control" id="newMessage" name="newMessage" placeholder="Type in your message" rows="5" data-ng-model="newMessage" data-tweet-length="newMessage" data-max-length="maxMessageLength" data-ng-change="messageChanged()" required="required"></textarea>
+					<span class="help-block">
+						<span data-ng-pluralize data-count="newMessageCharsLeft" data-when="{'0': '0 characters',
+							'one': '1 character',
+							'other': '{} characters'}">
+							XX characters
+						</span>
+						remaining
+					</span>
+                </div>
+                
+                <button class="btn btn-info btn-block" type="submit" data-ng-class="{disabled: !sendAllowed}"><i class="icon-bullhorn"></i> Post New Message</button>
             </form>
         </div>
     </div>

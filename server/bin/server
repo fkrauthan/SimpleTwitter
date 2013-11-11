@@ -1,0 +1,2 @@
+#!/bin/env node
+require(__dirname + '/../lib/server/app.js');

@@ -1,19 +1,26 @@
 {
 	"name": "simple-twitter-server",
 	"description": "The simple twitter server part",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"author": "Florian Krauthan",
 	"homepage": "http://fkrauthan.de",
 	"private": true,
+	"bin": {
+		"server": "./bin/server",
+		"cli": "./bin/cli"
+	},
 	"dependencies": {
-		"express": "~3.0.3",
-		"express-error": "~0.0.3",
-		"mongoose": "~3.5.5",
-		"expires": "~0.0.0",
-		"bcrypt-nodejs": "~0.0.2",
-		"commander": "~1.1.1",
-		"async": "~0.2.5"
+		"express": "~3.4.4",
+		"express-error": "~0.0.7",
+		"mongoose": "~3.8.0",
+		"expires": "~0.0.1",
+		"bcrypt-nodejs": "~0.0.3",
+		"commander": "~1.3.2",
+		"async": "~0.2.9"
 	},
 	"devDependencies": {
+	},
+	"engines": {
+		"node": ">=0.8"
 	}
 }

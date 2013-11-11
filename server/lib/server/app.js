@@ -14,7 +14,7 @@ var path = require('path');
 //----------------------------------------------------------------------
 // Configuration
 //----------------------------------------------------------------------
-var Config = require(__dirname + '/config.json');
+var Config = require(__dirname + '/../../config.json');
 
 if(!('port' in Config)) {
 	Config.port = 2013;
@@ -85,7 +85,8 @@ app.configure(function() {
 	}
 	
 	//Enable body parsing and method overriding
-	app.use(express.bodyParser());
+	app.use(express.urlencoded())
+	app.use(express.json())
 	app.use(express.methodOverride());
 	
 	//Enable routing
@@ -93,13 +94,15 @@ app.configure(function() {
 	
 	//Enable static file serving
 	if(Config.serveApp === true) {
-		app.use(express.static(__dirname + '/../client'));
+		app.use(express.static(__dirname + '/../../../client'));
 	}
 	
 	//Enable error handling
 	app.use(function(req, res, next) {
 		res.statusCode = 404;
-		res.sendfile(__dirname + '/errors/404.html');
+		
+		var filePath = path.resolve(__dirname + '/../../views/errors/404.html');
+		res.sendfile(filePath);
 	});
 	if(DEBUG) {
 		app.use(expressError.express3({contextLinesCount: 3, handleUncaughtException: true}));
@@ -107,7 +110,9 @@ app.configure(function() {
 	else {
 		app.use(function(err, req, res, next) {
 			res.statusCode = 500;
-			res.sendfile(__dirname + '/errors/500.html');
+			
+			var filePath = path.resolve(__dirname + '/../../views/errors/500.html');
+			res.sendfile(filePath);
 		});
 	}
 });
@@ -115,7 +120,8 @@ app.configure(function() {
 //Enable static index serving
 if(Config.serveApp === true) {
 	app.get('/', function(req, res) {
-		res.sendfile(path.normalize(__dirname + '/../client/index.html'));
+		var filePath = path.resolve(__dirname + '/../../../client/index.html');
+		res.sendfile(path.normalize(filePath));
 	});
 }
 

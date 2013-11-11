@@ -10,8 +10,8 @@ var bcrypt = require('bcrypt-nodejs');
 //----------------------------------------------------------------------
 // Configuration
 //----------------------------------------------------------------------
-var Config = require(__dirname + '/config.json');
-var Package = require(__dirname + '/package.json');
+var Config = require(__dirname + '/../../config.json');
+var Package = require(__dirname + '/../../package.json');
 
 
 //----------------------------------------------------------------------

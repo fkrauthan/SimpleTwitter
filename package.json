@@ -6,6 +6,6 @@
 	"homepage": "http://fkrauthan.de",
 	"private": true,
 	"scripts": {
-		"start": "node server/app.js"
+		"start": "./server/bin/server"
 	}
 }

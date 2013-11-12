@@ -216,3 +216,21 @@ function UsersController($scope, Users) {
 	};
 }
 UsersController.$inject = ['$scope', 'Users'];
+
+
+function UserController($scope, $routeParams, $location, Users, Tweets) {
+	$scope.user = {'username': 'Loading...'};
+	
+	Users.loadByUsername($routeParams.username, function(user) {
+		$scope.user = user;
+		
+		Tweets.loadByUser(user, function(tweets) {
+			$scope.tweets = tweets;
+		}, function(error) {
+			alert('There was an error while loading tweets');
+		});
+	}, function(error) {
+		$location.path('/404');
+	});
+}
+UserController.$inject = ['$scope', '$routeParams', '$location', 'Users', 'Tweets'];

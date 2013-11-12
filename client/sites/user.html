@@ -1,0 +1,35 @@
+
+<div class="page-header">
+	<h1>{{ user.username }}</h1>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="tweets">
+            <div class="tweet well" data-ng-repeat="tweet in tweets | orderBy : 'timestamp' : true">
+                <div class="media">
+                    <a class="pull-left" href="#/u/{{ tweet.author.username }}">
+                        <img class="media-object" src="http://placehold.it/64x64" />
+                    </a>
+                    <div class="media-body">
+                        <div class="pull-right"><a href="javascript:void(0)" data-ng-click="scrollToTop()"><span class="glyphicon glyphicon-circle-arrow-up scrollToTop" title="Scroll To Top"></span></a></div>
+                        <h4 class="media-heading"><a href="#/u/{{ tweet.author.username }}">{{ tweet.author.username }}</a></h4>
+                        <div data-ng-bind-html="tweet.message | linky | tweetMentions : tweet.mentions | tweetHashTags : tweet.hashTags">Tweet content</div>
+                        <div class="pull-right" data-ng-show="tweet.submitted">
+                            <abbr class="timeago" title="{{ tweet.timestamp | date : 'fullDate' }} {{ tweet.timestamp | date : 'shortTime' }}">{{ tweet.timestamp | timeAgo }}</abbr>
+                        </div>
+                        <div class="pull-right" data-ng-hide="tweet.submitted">
+                            <abbr class="timeago" title="{{ tweet.timestamp | date : 'fullDate' }} {{ tweet.timestamp | date : 'shortTime' }}">submitting...</abbr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-ng-show="tweets.length == 0">
+				<p>There are no tweets at the moment. Let's start tweeting :)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        TBD
+    </div>
+</div>

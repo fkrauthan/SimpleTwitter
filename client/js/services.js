@@ -167,6 +167,17 @@ angular.module('simpleTwitter.services', [])
 			}
 			return this.users;
 		};
+		Users.prototype.loadByUsername = function(username, onSuccess, onError) {
+			var ctx = this;
+			$http.get(API_URL + '/users/' + username, User.getAPIAuthorizationHeader())
+				.success(function(data, status, headers, config) {
+					onSuccess(data.user);
+				})
+				.error(function(data, status, headers, config) {
+					console.log('There was an error while loading a user: ' + data.error);
+					onError(data.error);
+				});
+		};
 		
 		return new Users();
 	}])
@@ -257,6 +268,26 @@ angular.module('simpleTwitter.services', [])
 				})
 				.error(function(data, status, headers, config) {
 					console.log('There was an error while submiting tweet: ' + data.error);
+				});
+		};
+		Tweets.prototype.loadByUser = function(user, onSuccess, onError) {
+			var ctx = this;
+			
+			$http.get(API_URL + '/users/' + user.username + '/tweets', User.getAPIAuthorizationHeader())
+				.success(function(data, status, headers, config) {
+					for(var i=0; i<data.tweets.length; i++) {
+						var tweet = data.tweets[i];
+						tweet.submitted = true;
+						tweet.mentions = ctx.parseMentions(tweet.message);
+						tweet.hashTags = ctx.parseHashTags(tweet.message);
+					}
+					
+					onSuccess(data.tweets);
+				})
+				.error(function(data, status, headers, config) {
+					console.log('There was an error while loading tweets: ' + data.error);
+					
+					onError(data.error);
 				});
 		};
 

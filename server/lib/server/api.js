@@ -91,6 +91,22 @@ exports.init = function(app, Config) {
 		});
 	}
 	
+	app.get('/api/users/:username', auth.authenticate, function(req, res) {
+		var User = mongoose.model('User');
+		User.findOne({'username': req.params.username}, function(err, user) {
+			if(err) {
+				console.log('There was an error while loading data from the database: ', err);
+				return res.json({'error': 'Couldn\'t load user'}, 500);
+			}
+			if(!user) {
+				console.log('No user with this username was not found');
+				return res.json({'error': 'Couldn\'t load user'}, 404);
+			}
+					
+			res.json({'user': user});
+		});
+	});
+	
 	app.put('/api/users/:username/follow', auth.authenticate, function(req, res) {
 		var User = mongoose.model('User');
 		User.findOne({'username': req.params.username}, {'id': 1, 'username': 1, 'name': 1}, function(err, following) {

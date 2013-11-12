@@ -15,6 +15,7 @@ angular.module('simpleTwitter', ['simpleTwitter.filters', 'simpleTwitter.service
 
 			.when('/home', {templateUrl: 'sites/home.html', controller: HomeController})
 			.when('/users', {templateUrl: 'sites/users.html', controller: UsersController})
+			.when('/u/:username', {templateUrl: 'sites/user.html', controller: UserController})
 			.otherwise({redirectTo: '/404'})
 		;
 	}])

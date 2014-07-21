@@ -1,12 +1,9 @@
 {
-	"port": 2010,
-	"mongoose": {
-		"uri": "mongodb://localhost/SimpleTwitter",
-		"options": {}
-	},
-	"auth": {
-		"expires": "2 hours",
-		"salt": "123IamNotSecure"
-	},
-	"registration": true
+    "database": {
+        "database": "fkrauthan_simpletwitter",
+        "username": "fkrauthan",
+        "password": "fkrauthan",
+        "options": {}
+    },
+    "port": 2016
 }

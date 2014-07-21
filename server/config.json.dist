@@ -1,0 +1,9 @@
+{
+    "database": {
+        "database": "",
+        "username": "",
+        "password": "",
+        "options": {}
+    },
+    "port": 2016
+}

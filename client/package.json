@@ -1,0 +1,17 @@
+{
+  "name": "SimpleTwitter-Client",
+  "version": "0.0.0",
+  "description": "The simple twitter client",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Florian Krauthan",
+  "license": "MIT",
+  "dependencies": {
+    "browserify": "^4.2.0",
+    "envify": "^1.2.1",
+    "express": "^4.6.0",
+    "react": "^0.10.0"
+  }
+}

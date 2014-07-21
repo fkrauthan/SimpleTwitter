@@ -1,2 +1,0 @@
-var API_URL = 'http://localhost/api';
-var REGISTRATION_ENABLED = false;

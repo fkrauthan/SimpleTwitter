@@ -1,8 +1,3 @@
 #IDEA
-.idea/
-
-#NodeJS packages
-server/node_modules
-
-#Client config
-client/config.js
+.idea/workspace.xml
+.idea/tasks.xml

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavaScriptLibraryMappings">
+    <file url="file://$PROJECT_DIR$/client" libraries="{Node.js v0.10.29 Core Modules}" />
+    <file url="file://$PROJECT_DIR$/client/node_modules" libraries="{Node.js Globals}" />
+    <file url="file://$PROJECT_DIR$/server" libraries="{Node.js v0.10.29 Core Modules}" />
+    <file url="file://$PROJECT_DIR$/server/node_modules" libraries="{Node.js Globals}" />
+    <file url="file://$PROJECT_DIR$/server/server.js" libraries="{Node.js Globals}" />
+    <file url="file://$PROJECT_DIR$/server/src/auth/api.js" libraries="{Node.js Globals}" />
+    <file url="file://$PROJECT_DIR$/server/src/auth/setup.js" libraries="{Node.js Globals}" />
+    <file url="file://$PROJECT_DIR$/server/src/main.js" libraries="{Node.js Globals}" />
+    <file url="file://$PROJECT_DIR$/server/src/models/Tweet.js" libraries="{Node.js Globals}" />
+    <file url="file://$PROJECT_DIR$/server/src/models/User.js" libraries="{Node.js Globals}" />
+    <file url="file://$PROJECT_DIR$/server/src/utils/sha256.js" libraries="{Node.js Globals}" />
+  </component>
+</project>
+

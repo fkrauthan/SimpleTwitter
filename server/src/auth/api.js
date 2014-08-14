@@ -36,7 +36,8 @@ module.exports = function(app, sequelize) {
                             where: {
                                 'userId': user.id,
                                 'clientId': client.id,
-                                'app': req.body.app
+                                'app': req.body.app,
+                                'revoked': false
                             }
                         }).success(function (accessToken) {
                                 if(accessToken) {
@@ -97,7 +98,7 @@ module.exports = function(app, sequelize) {
                         });
                 })
                 .error(function(error) {
-                    return next(err);
+                    return next(error);
                 });
         });
 };

@@ -48,6 +48,7 @@ module.exports = function(sequelize) {
     });
 
     passport.deserializeUser(function(id, done) {
+        console.log('Test123');
         User.find({
             where: {
                 'id': id
@@ -58,10 +59,6 @@ module.exports = function(sequelize) {
             .error(function(err) {
                 return done(err);
             });
-
-        db.users.find(id, function (err, user) {
-            done(err, user);
-        });
     });
 
 
@@ -122,14 +119,17 @@ module.exports = function(sequelize) {
                 where: {
                     'token': accessToken,
                     'revoked': false
-                }
+                },
+                include: [{
+                    'model': User
+                }]
             }).success(function(token) {
                     if(!token) {
                         return done(null, false);
                     }
 
-                    var info = { scope: '*' }
-                    done(null, token.getUser(), token.secret, info);
+                    var info = { scope: '*' };
+                    done(null, token.user, token.secret, info);
                 })
                 .error(function(err) {
                     return done(err);
@@ -141,7 +141,7 @@ module.exports = function(sequelize) {
         // replay attacks.  In this example, no checking is done and everything is
         // accepted.
         function(timestamp, nonce, done) {
-            done(null, true)
+            done(null, true);
         }
     ));
 };

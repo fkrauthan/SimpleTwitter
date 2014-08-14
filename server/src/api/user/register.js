@@ -80,7 +80,6 @@ module.exports = function(app, sequelize) {
                 })
                 .error(function (error) {
                     next(error);
-                    callback(true);
                 });
         });
     });

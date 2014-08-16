@@ -52,10 +52,6 @@ module.exports = function(app, sequelize) {
         getTweet(req, res, next, req.user.id, req.params.tweetId);
     });
     app.get('/api/users/:userId/tweets/:tweetId', passport.authenticate('token', { session: false }), function(req, res, next) {
-        if(req.params.userId != req.user.id) {
-            return res.status(401).send();
-        }
-
         getTweet(req, res, next, req.params.userId, req.params.tweetId);
     });
 };

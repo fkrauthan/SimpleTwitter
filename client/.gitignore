@@ -1,6 +1,9 @@
 # Npm
 node_modules/
 
+# Components
+assets/components/
+
 # Config
 config.json
 

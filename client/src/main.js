@@ -1,5 +1,6 @@
 
 var CONFIG = require(__dirname + '/../config.json');
+var development = process.env.NODE_ENV !== 'production';
 
 
 // Prepare jsx
@@ -18,10 +19,32 @@ app.use(bodyParser.json());
 app.use(morgan('combined'));
 app.use(responseTime({digits: 5}));
 
-if (process.env.NODE_ENV === 'development') {
+if (development) {
     var errorhandler = require('errorhandler');
     app.use(errorhandler())
 }
+
+
+// Configure browserify
+/*if (development) {
+    var browserify  = require('connect-browserify');
+
+    app.get('/assets/bundle.js',
+        browserify('./client', {
+            debug: true,
+            watch: true
+        }));
+}*/
+
+
+// Setup other routes
+var renderApp = require(__dirname + '/render');
+var apiProxy = require(__dirname + '/proxy')(CONFIG);
+
+app
+    .use('/assets', express.static(__dirname + '/../assets'))
+    .use('/api', apiProxy)
+    .use(renderApp);
 
 
 // Start web server

@@ -1,5 +1,6 @@
 
 var CONFIG = require(__dirname + '/../config.json');
+var development = process.env.NODE_ENV !== 'production';
 var Sequelize = require('sequelize');
 
 
@@ -27,7 +28,7 @@ app.use(bodyParser.json());
 app.use(morgan('combined'));
 app.use(responseTime({digits: 5}));
 
-if (process.env.NODE_ENV === 'development') {
+if (development) {
     var errorhandler = require('errorhandler');
     app.use(errorhandler())
 }

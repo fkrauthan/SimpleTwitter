@@ -9,9 +9,13 @@
   "author": "Florian Krauthan",
   "license": "MIT",
   "dependencies": {
-    "browserify": "^4.2.0",
-    "envify": "^1.2.1",
-    "express": "^4.6.0",
-    "react": "^0.10.0"
-  }
+      "body-parser": "^1.5.0",
+      "express": "^4.6.0",
+      "morgan": "^1.2.0",
+      "response-time": "^2.0.0",
+      "node-jsx": "^0.10.0"
+  },
+    "devDependencies": {
+        "errorhandler": "^1.1.1"
+    }
 }

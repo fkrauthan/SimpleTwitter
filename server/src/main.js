@@ -25,7 +25,7 @@ var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('combined'));
-app.use(responseTime(5));
+app.use(responseTime({digits: 5}));
 
 if (process.env.NODE_ENV === 'development') {
     var errorhandler = require('errorhandler');

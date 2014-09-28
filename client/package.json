@@ -3,6 +3,7 @@
     "version": "0.0.0",
     "description": "The simple twitter client",
     "main": "server.js",
+    "browser": "client.js",
     "browserify": {
         "transform": [
             ["reactify", {

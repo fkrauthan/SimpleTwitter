@@ -26,19 +26,19 @@ if (development) {
 
 
 // Configure browserify
-/*if (development) {
+if (development) {
     var browserify  = require('connect-browserify');
 
     app.get('/assets/bundle.js',
-        browserify('./client', {
+        browserify(__dirname + '/../client', {
             debug: true,
             watch: true
         }));
-}*/
+}
 
 
 // Setup other routes
-var renderApp = require(__dirname + '/render');
+var renderApp = require(__dirname + '/render')(CONFIG);
 var apiProxy = require(__dirname + '/proxy')(CONFIG);
 
 app

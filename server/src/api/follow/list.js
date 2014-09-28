@@ -2,6 +2,7 @@
 var passport = require('passport');
 var Sequelize = require('sequelize');
 var prepareUserFollow = require(__dirname + '/../../utils/prepareUserFollow');
+var parseBoolean = require(__dirname + '/../../utils/parseBoolean');
 
 module.exports = function(app, sequelize) {
     var UserFollow = sequelize.import(__dirname + '/../../models/UserFollow');
@@ -21,10 +22,7 @@ module.exports = function(app, sequelize) {
             offset = 0;
         }
 
-        var followers = true;
-        if(req.query.following !== undefined && req.query.following == true) {
-            followers = false;
-        }
+        var followers = parseBoolean(req.query.following, true);
 
         var includes = [];
         if(followers) {

@@ -1,5 +1,6 @@
 # Npm
 node_modules/
+npm-debug.log
 
 # Components
 assets/components/

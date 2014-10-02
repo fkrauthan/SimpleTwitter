@@ -8,7 +8,7 @@ var NavigationStore = Fluxy.createStore({
 
     getInitialState: function () {
         return {
-            url: ''
+            path: ''
         }
     }
 });

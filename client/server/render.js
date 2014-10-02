@@ -13,8 +13,15 @@ module.exports = function(CONFIG) {
 
     return function(req, res, next) {
         var path = url.parse(req.url).pathname;
+        if(path == '/favicon.ico' || path == '/apple-touch-icon-precomposed.png' || path == '/apple-touch-icon.png') {
+            return next();
+        }
 
-        Fluxy.start({});
+        Fluxy.start({
+            'NavigationStore': {
+                'path': path
+            }
+        });
         var content = React.renderComponentToString(SimpleTwitterApp(null));
 
         res.send(TEMPLATE.replace(PLACEHOLDER_APP, content).replace(PLACEHOLDER_BOOTSTRAP, 'window.__fluxy__ = ' + Fluxy.renderStateToString()));

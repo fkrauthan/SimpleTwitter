@@ -12,8 +12,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var responseTime = require('response-time');
+var session = require('express-session');
 
 var app = express();
+app.use(session({secret: CONFIG.session_secret}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('combined'));

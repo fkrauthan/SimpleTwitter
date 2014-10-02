@@ -1,3 +1,3 @@
 #!/bin/env node
 
-require(__dirname + '/src/main');
+require(__dirname + '/server/main');

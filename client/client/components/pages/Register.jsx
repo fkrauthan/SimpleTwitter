@@ -4,22 +4,28 @@
 
 var React = require('react/addons');
 
+var RegistrationStore = require('../../stores/RegistrationStore');
+
 var Well = require('react-bootstrap').Well;
 var Glyphicon = require('react-bootstrap').Glyphicon;
 var Input = require('react-bootstrap').Input;
 var Button = require('react-bootstrap').Button;
 
+function getRegistrationState() {
+    return {
+        'username': RegistrationStore.get('username'),
+        'email': RegistrationStore.get('email'),
+        'name': RegistrationStore.get('name'),
+        'password': RegistrationStore.get('password'),
+        'password_repeat': RegistrationStore.get('password_repeat')
+    };
+}
+
 var Register = React.createClass({
     mixins: [React.addons.LinkedStateMixin],
 
     getInitialState: function() {
-        return {
-            'username': '',
-            'email': '',
-            'name': '',
-            'password': '',
-            'password_repeat': ''
-        };
+        return getRegistrationState();
     },
 
     handleRegister: function() {

@@ -18,7 +18,7 @@ var Footer = React.createClass({
                                 © <a href="http://www.fkrauthan.de">fkrauthan.de</a> 2014
                             </p>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-6 text-right">
                             <p>
                                 <Link href="/about">About</Link>
                             </p>

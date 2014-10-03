@@ -19,11 +19,23 @@ var UnAuthenticated = React.createClass({
         });
     },
 
+    isNavItemActive: function(url) {
+        var curUrl = this.getPath();
+        if(curUrl == null) {
+            return false;
+        }
+
+        if(url === curUrl) {
+            return true;
+        }
+        return curUrl.lastIndexOf(url, 0) === 0;
+    },
+
     render: function() {
         return (
             <Nav navbar={true} onSelect={this.navItemSelected}>
-                <NavItem key={1} href="/login">Login</NavItem>
-                <NavItem key={2} href="/register">Register</NavItem>
+                <NavItem key={1} active={this.isNavItemActive("/login")} href="/login">Login</NavItem>
+                <NavItem key={2} active={this.isNavItemActive("/register")} href="/register">Register</NavItem>
             </Nav>
             );
     }

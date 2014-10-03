@@ -10,6 +10,12 @@ var NavigationStore = Fluxy.createStore({
         return {
             path: ''
         }
-    }
+    },
+
+    actions: [
+        [NavigationConstants.PATH_CHANGED, function (newPath) {
+            this.set('path', newPath);
+        }]
+    ]
 });
 module.exports = NavigationStore;

@@ -22,6 +22,10 @@ var Register = React.createClass({
         };
     },
 
+    handleRegister: function() {
+        //TODO handle register
+    },
+
     render: function() {
         return (
             <div>
@@ -39,7 +43,7 @@ var Register = React.createClass({
                                 <Input type="password" name="password" placeholder="Password" addonBefore={<Glyphicon glyph="lock" />} valueLink={this.linkState('password')} />
                                 <Input type="password" name="password_repeated" placeholder="Password repeated" addonBefore={<Glyphicon glyph="lock" />} valueLink={this.linkState('password_repeated')} />
 
-                                <Button bsStyle="primary" className="btn-block"><Glyphicon glyph="road" /> Sign Up</Button>
+                                <Button bsStyle="primary" className="btn-block" onClick={this.handleRegister}><Glyphicon glyph="road" /> Sign Up</Button>
                             </form>
                         </Well>
                     </div>

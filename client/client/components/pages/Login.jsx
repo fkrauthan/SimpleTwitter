@@ -19,6 +19,10 @@ var Login = React.createClass({
         };
     },
 
+    handleLogin: function() {
+        //TODO handle login
+    },
+
     render: function() {
         return (
             <div>
@@ -33,7 +37,7 @@ var Login = React.createClass({
                                 <Input type="text" name="username" placeholder="Username" addonBefore={<Glyphicon glyph="user" />} valueLink={this.linkState('username')} />
                                 <Input type="password" name="password" placeholder="Password" addonBefore={<Glyphicon glyph="lock" />} valueLink={this.linkState('password')} />
 
-                                <Button bsStyle="primary" className="btn-block"><Glyphicon glyph="log-in" /> Sign in</Button>
+                                <Button bsStyle="primary" className="btn-block" onClick={this.handleLogin}><Glyphicon glyph="log-in" /> Sign in</Button>
                             </form>
                         </Well>
                     </div>

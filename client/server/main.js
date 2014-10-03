@@ -15,7 +15,7 @@ var responseTime = require('response-time');
 var session = require('express-session');
 
 var app = express();
-app.use(session({secret: CONFIG.session_secret}));
+app.use(session({secret: CONFIG.session_secret, saveUninitialized: true, resave: true}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(morgan('combined'));

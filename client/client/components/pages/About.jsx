@@ -2,9 +2,11 @@
  * @jsx React.DOM
  */
 
-var React = require('react');
+var React = require('react/addons');
 
 var About = React.createClass({
+    mixins: [React.addons.PureRenderMixin],
+
     render: function() {
         return (
             <div>

@@ -4,12 +4,20 @@
 
 var React = require('react');
 
+var NavigationStore = require('../../stores/NavigationStore');
+
 var Nav = require('react-bootstrap').Nav;
 var NavItem = require('react-bootstrap').NavItem;
 var NavigatableMixin = require('react-router-component').NavigatableMixin;
 
 var UnAuthenticated = React.createClass({
     mixins: [NavigatableMixin],
+
+    getInitialState: function() {
+        return {
+            'path': NavigationStore.get('path')
+        };
+    },
 
     navItemSelected: function(key, href) {
         this.navigate(href, {}, function(err) {
@@ -22,7 +30,7 @@ var UnAuthenticated = React.createClass({
     isNavItemActive: function(url) {
         var curUrl = this.getPath();
         if(curUrl == null) {
-            return false;
+            curUrl = this.state.path;
         }
 
         if(url === curUrl) {

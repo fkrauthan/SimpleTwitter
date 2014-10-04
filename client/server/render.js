@@ -17,11 +17,11 @@ module.exports = function(CONFIG) {
             return next();
         }
 
-        Fluxy.start({
-            'NavigationStore': {
-                'path': path
-            }
-        });
+        var stores = req.stores;
+        stores.NavigationStore = {
+            'path': path
+        };
+        Fluxy.start(stores);
         var content = React.renderComponentToString(SimpleTwitterApp(null));
 
         res.send(TEMPLATE.replace(PLACEHOLDER_APP, content).replace(PLACEHOLDER_BOOTSTRAP, 'window.__fluxy__ = ' + Fluxy.renderStateToString()));

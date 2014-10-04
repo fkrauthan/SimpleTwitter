@@ -47,6 +47,10 @@ var fallback = require(__dirname + '/fallback')(CONFIG);
 app
     .use('/assets', express.static(__dirname + '/../assets'))
     .use('/api', apiProxy)
+    .use(function (req, res, next) {
+        req.stores = {};
+        next();
+    })
     .use(fallback)
     .use(renderApp);
 

@@ -21,7 +21,14 @@ var RegistrationService = {
                 'required.password_repeated': 'The password repeated field is required.'
             });
             if(validation.fails()) {
-                reject(validation.errors.all());
+                var errors = validation.errors.all();
+                for(var key in errors) {
+                    if(errors[key] instanceof Array) {
+                        errors[key] = errors[key].join(' ');
+                    }
+                }
+
+                reject(errors);
                 return;
             }
 

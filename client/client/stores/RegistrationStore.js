@@ -28,12 +28,6 @@ var RegistrationStore = Fluxy.createStore({
             console.log('User registered', user);
         }],
         [RegistrationConstants.REGISTER_USER_FAILED, function (errors) {
-            for(var key in errors) {
-                if(errors[key] instanceof Array) {
-                    errors[key] = errors[key].join(' ');
-                }
-            }
-
             this.set('errors', errors);
         }]
     ]

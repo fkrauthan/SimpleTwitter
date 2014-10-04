@@ -5,6 +5,7 @@
 var React = require('react/addons');
 
 var RegistrationStore = require('../../stores/RegistrationStore');
+var RegistrationActions = require('../../actions/RegistrationActions');
 
 var Well = require('react-bootstrap').Well;
 var Glyphicon = require('react-bootstrap').Glyphicon;
@@ -17,7 +18,7 @@ function getRegistrationState() {
         'email': RegistrationStore.get('email'),
         'name': RegistrationStore.get('name'),
         'password': RegistrationStore.get('password'),
-        'password_repeat': RegistrationStore.get('password_repeat')
+        'password_repeated': RegistrationStore.get('password_repeated')
     };
 }
 
@@ -29,7 +30,13 @@ var Register = React.createClass({
     },
 
     handleRegister: function() {
-        //TODO handle register
+        RegistrationActions.register({
+            'username': this.state.username,
+            'email': this.state.email,
+            'name': this.state.name,
+            'password': this.state.password,
+            'password_repeated': this.state.password_repeated
+        });
     },
 
     render: function() {

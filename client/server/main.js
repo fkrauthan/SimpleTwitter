@@ -42,10 +42,12 @@ if (development) {
 // Setup other routes
 var renderApp = require(__dirname + '/render')(CONFIG);
 var apiProxy = require(__dirname + '/proxy')(CONFIG);
+var emulator = require(__dirname + '/emulator')(CONFIG);
 
 app
     .use('/assets', express.static(__dirname + '/../assets'))
     .use('/api', apiProxy)
+    .use(emulator)
     .use(renderApp);
 
 

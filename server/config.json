@@ -1,9 +1,0 @@
-{
-    "database": {
-        "database": "fkrauthan_simpletwitter",
-        "username": "fkrauthan",
-        "password": "fkrauthan",
-        "options": {}
-    },
-    "port": 2016
-}

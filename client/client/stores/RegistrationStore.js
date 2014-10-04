@@ -8,11 +8,13 @@ var RegistrationStore = Fluxy.createStore({
 
     getInitialState: function () {
         return {
-            'username': '',
-            'email': '',
-            'name': '',
-            'password': '',
-            'password_repeated': ''
+            user: {
+                'username': '',
+                'email': '',
+                'name': '',
+                'password': '',
+                'password_repeated': ''
+            }
         }
     },
 

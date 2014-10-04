@@ -14,15 +14,20 @@ var rules = {
 
 
 var RegistrationService = {
-    register: function(user) {
+    register: function(userInfo) {
         return new Promise(function (resolve, reject) {
-            var validation = new Validator(user, rules);
+            var validation = new Validator(userInfo, rules);
             if(validation.fails()) {
                 reject(validation.errors.all());
                 return;
             }
 
-            delete user.password_repeat;
+            var user = {
+                'username': userInfo.username,
+                'email': userInfo.email,
+                'name': userInfo.name,
+                'password': userInfo.password
+            };
 
             request
                 .post('/register')

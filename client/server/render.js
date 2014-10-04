@@ -21,6 +21,7 @@ module.exports = function(CONFIG) {
         stores.NavigationStore = {
             'path': path
         };
+        console.log(stores);
         Fluxy.start(stores);
         var content = React.renderComponentToString(SimpleTwitterApp(null));
 

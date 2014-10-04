@@ -67,7 +67,7 @@ var Register = React.createClass({
                     <div className="col-md-6 col-md-offset-3">
                         <Well>
                             <form action="/register" method="post">
-                                <Input bsStyle={usernameStyle} help={usernameError} type="text" name="username" placeholder="Username" addonBefore={<Glyphicon glyph="user" />} value={this.state.user.username} valueLink={this.linkState('user.username')} />
+                                <Input bsStyle={usernameStyle} help={usernameError} type="text" name="username" placeholder="Username" addonBefore={<Glyphicon glyph="user" />} valueLink={this.linkState('user.username')} />
                                 <Input bsStyle={emailStyle} help={emailError} type="text" name="email" placeholder="E-Mail" addonBefore={<Glyphicon glyph="envelope" />} valueLink={this.linkState('user.email')} />
                                 <Input bsStyle={nameStyle} help={nameError} type="text" name="name" placeholder="Name" addonBefore={<Glyphicon glyph="tag" />} valueLink={this.linkState('user.name')} />
                                 <Input bsStyle={passwordStyle} help={passwordError} type="password" name="password" placeholder="Password" addonBefore={<Glyphicon glyph="lock" />} valueLink={this.linkState('user.password')} />

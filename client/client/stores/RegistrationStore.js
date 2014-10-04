@@ -14,16 +14,27 @@ var RegistrationStore = Fluxy.createStore({
                 'name': '',
                 'password': '',
                 'password_repeated': ''
-            }
+            },
+
+            errors: {}
         }
     },
 
     actions: [
+        [RegistrationConstants.REGISTER_USER, function (user) {
+            this.set('user', user);
+        }],
         [RegistrationConstants.REGISTER_USER_COMPLETED, function (user) {
             console.log('User registered', user);
         }],
         [RegistrationConstants.REGISTER_USER_FAILED, function (errors) {
-            console.log('Validation errors', errors);
+            for(var key in errors) {
+                if(errors[key] instanceof Array) {
+                    errors[key] = errors[key].join(' ');
+                }
+            }
+
+            this.set('errors', errors);
         }]
     ]
 });

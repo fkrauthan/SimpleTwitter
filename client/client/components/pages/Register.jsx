@@ -16,7 +16,8 @@ var Button = require('react-bootstrap').Button;
 
 function getRegistrationState() {
     return {
-        'user': RegistrationStore.get('user')
+        'user': RegistrationStore.get('user'),
+        'errors': RegistrationStore.get('errors')
     };
 }
 
@@ -27,12 +28,35 @@ var Register = React.createClass({
         return getRegistrationState();
     },
 
+    componentDidMount: function() {
+        RegistrationStore.addWatch(this._onChange);
+    },
+
+    componentWillUnmount: function() {
+        RegistrationStore.removeWatch(this._onChange);
+    },
+
+    _onChange: function(keys, oldState, newState) {
+        this.setState(getRegistrationState());
+    },
+
     handleRegister: function() {
-        console.log(this.state.user);
         RegistrationActions.register(this.state.user);
     },
 
     render: function() {
+        var usernameStyle = this.state.errors.username ? 'error' : null;
+        var emailStyle = this.state.errors.email ? 'error' : null;
+        var nameStyle = this.state.errors.name ? 'error' : null;
+        var passwordStyle = this.state.errors.password ? 'error' : null;
+        var passwordRepeatedStyle = this.state.errors.password_repeated ? 'error' : null;
+
+        var usernameError = this.state.errors.username;
+        var emailError = this.state.errors.email;
+        var nameError = this.state.errors.name;
+        var passwordError = this.state.errors.password;
+        var passwordRepeatedError = this.state.errors.password_repeated;
+
         return (
             <div>
                 <div className="page-header">
@@ -43,11 +67,11 @@ var Register = React.createClass({
                     <div className="col-md-6 col-md-offset-3">
                         <Well>
                             <form action="/register" method="post">
-                                <Input type="text" name="username" placeholder="Username" addonBefore={<Glyphicon glyph="user" />} valueLink={this.linkState('user.username')} />
-                                <Input type="text" name="email" placeholder="E-Mail" addonBefore={<Glyphicon glyph="envelope" />} valueLink={this.linkState('user.email')} />
-                                <Input type="text" name="name" placeholder="Name" addonBefore={<Glyphicon glyph="tag" />} valueLink={this.linkState('user.name')} />
-                                <Input type="password" name="password" placeholder="Password" addonBefore={<Glyphicon glyph="lock" />} valueLink={this.linkState('user.password')} />
-                                <Input type="password" name="password_repeated" placeholder="Password repeated" addonBefore={<Glyphicon glyph="lock" />} valueLink={this.linkState('user.password_repeated')} />
+                                <Input bsStyle={usernameStyle} help={usernameError} type="text" name="username" placeholder="Username" addonBefore={<Glyphicon glyph="user" />} valueLink={this.linkState('user.username')} />
+                                <Input bsStyle={emailStyle} help={emailError} type="text" name="email" placeholder="E-Mail" addonBefore={<Glyphicon glyph="envelope" />} valueLink={this.linkState('user.email')} />
+                                <Input bsStyle={nameStyle} help={nameError} type="text" name="name" placeholder="Name" addonBefore={<Glyphicon glyph="tag" />} valueLink={this.linkState('user.name')} />
+                                <Input bsStyle={passwordStyle} help={passwordError} type="password" name="password" placeholder="Password" addonBefore={<Glyphicon glyph="lock" />} valueLink={this.linkState('user.password')} />
+                                <Input bsStyle={passwordRepeatedStyle} help={passwordRepeatedError} type="password" name="password_repeated" placeholder="Password repeated" addonBefore={<Glyphicon glyph="lock" />} valueLink={this.linkState('user.password_repeated')} />
 
                                 <Button bsStyle="primary" className="btn-block" onClick={this.handleRegister}><Glyphicon glyph="road" /> Sign Up</Button>
                             </form>

@@ -9,14 +9,17 @@ var rules = {
     username: 'required',
     email: 'required|email',
     password: 'required|min:5|same:password_repeat',
-    password_repeat: 'required'
+    password_repeated: 'required'
 };
 
 
 var RegistrationService = {
     register: function(userInfo) {
         return new Promise(function (resolve, reject) {
-            var validation = new Validator(userInfo, rules);
+            var validation = new Validator(userInfo, rules, {
+                'same.password': 'The password and password repeated fields must match.',
+                'required.password_repeated': 'The password repeated field is required.'
+            });
             if(validation.fails()) {
                 reject(validation.errors.all());
                 return;

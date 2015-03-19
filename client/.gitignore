@@ -1,12 +1,4 @@
-# Npm
+bower_components/
 node_modules/
-npm-debug.log
-
-# Components
-assets/components/
-
-# Config
-config.json
-
-# Compiled application
-assets/bundle.js
+dist/
+static/components/

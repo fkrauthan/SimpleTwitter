@@ -1,0 +1,22 @@
+{
+  "name": "SimpleTwitter-Client",
+  "main": "client.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/fkrauthan/SimpleTwitter",
+  "authors": [
+    "Florian Krauthan <mail@fkrauthan.de>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.2.0",
+    "html5shiv": "~3.7.2",
+    "respond": "~1.4.2"
+  }
+}

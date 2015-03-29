@@ -13,7 +13,7 @@ import DocumentTitle from 'react-document-title';
 const server = new Server();
 
 server.connection({
-	port: process.env.PORT || 8000
+	port: process.env.PORT || 2017
 });
 
 
@@ -81,7 +81,7 @@ server.ext('onPreResponse', (request, reply) => {
 				else {
 					await action();
 				}
-				
+
 				finishUpRequest(request, reply, flux);
 			}();
 		}
@@ -104,7 +104,7 @@ function finishUpRequest(request, reply, flux) {
 	let title = DocumentTitle.rewind();
 	let fluxString = JSON.stringify(flux.serialize());
 
-	const webserver = process.env.NODE_ENV === 'production' ? '' : '//localhost:8080';
+	const webserver = process.env.NODE_ENV === 'production' ? '' : '//localhost:2080';
 
 	reply.view('layout', {
 		appString,

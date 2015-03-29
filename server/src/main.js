@@ -30,7 +30,7 @@ app.use(responseTime({digits: 5}));
 
 if (development) {
     var errorhandler = require('errorhandler');
-    app.use(errorhandler())
+    app.use(errorhandler());
 }
 
 
@@ -43,6 +43,12 @@ require(__dirname + '/auth/setup')(sequelize);
 // Prepare api calls
 require(__dirname + '/auth/api')(app, sequelize);
 require(__dirname + '/api/index')(app, sequelize);
+
+
+// Prepare serving application
+var url = require('url');
+var proxy = require('proxy-middleware');
+app.use(proxy(url.parse(CONFIG.renderer)));
 
 
 // Connect to database and start web service

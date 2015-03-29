@@ -6,11 +6,11 @@ config.debug = true;
 config.devtool = 'eval';
 
 config.entry.unshift(
-	'webpack-dev-server/client?http://localhost:8080',
+	'webpack-dev-server/client?http://localhost:2080',
 	'webpack/hot/only-dev-server'
 );
 
-config.output.publicPath = 'http://localhost:8080/dist/';
+config.output.publicPath = 'http://localhost:2080/dist/';
 config.output.hotUpdateMainFilename = 'update/[hash]/update.json';
 config.output.hotUpdateChunkFilename = 'update/[hash]/[id].update.js';
 
@@ -28,7 +28,7 @@ config.module = {
 };
 
 config.devServer = {
-	publicPath:  'http://localhost:8080/dist/',
+	publicPath:  'http://localhost:2080/dist/',
 	contentBase: './static',
 	hot:         true,
 	inline:      true,

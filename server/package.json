@@ -22,7 +22,8 @@
         "passport-local": "~1.0.0",
         "prompt": "~0.2.14",
         "response-time": "~2.2.0",
-        "sequelize": "~1.7.10"
+        "sequelize": "~1.7.10",
+        "proxy-middleware": "~0.11.0"
     },
     "devDependencies": {
         "errorhandler": "~1.2.0",

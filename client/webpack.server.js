@@ -29,7 +29,10 @@ module.exports = {
 			'node_modules',
 			'web_modules'
 		],
-		extensions: ['', '.json', '.jsx', '.js']
+		extensions: ['', '.json', '.jsx', '.js'],
+		alias: {
+			'api-utils': path.join(__dirname, 'src', 'server', 'api-utils.js')
+		}
 	},
 	node:    {
 		__dirname: true

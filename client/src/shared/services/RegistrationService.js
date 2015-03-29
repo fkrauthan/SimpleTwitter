@@ -1,6 +1,7 @@
 
 var Validator = require('validatorjs');
 var request = require('superagent');
+var ApiUtils = require('api-utils');
 
 const rules = {
     name: 'required',
@@ -9,6 +10,10 @@ const rules = {
     password: 'required|min:5|same:password_repeated',
     password_repeated: 'required'
 };
+
+function map_validation_errors(errors) {
+    return {errors};
+}
 
 export default class RegistrationService {
 
@@ -39,13 +44,18 @@ export default class RegistrationService {
             };
 
             request
-                .post('/register')
+                .post(ApiUtils.host() + '/api/register')
                 .accept('json')
                 .type('json')
                 .send(user)
                 .end(function(error, res) {
                     if(error) {
                         resolve(error);
+                        return;
+                    }
+
+                    if(res.body && res.body.validationErrors) {
+                        resolve(map_validation_errors(res.body.validationErrors));
                         return;
                     }
 

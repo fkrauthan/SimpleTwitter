@@ -12,7 +12,7 @@
     "build-client": "npm run prepare-assets && webpack --verbose --colors --display-error-details --config webpack.client.js",
     "build": "concurrent 'npm run build-client' 'npm run build-server'",
     "watch-server": "webpack --verbose --colors --display-error-details --watch --config webpack.server-watch.js",
-    "watch-client": "npm run prepare-assets && webpack --verbose --colors --display-error-details --config webpack.client-watch.js && webpack-dev-server --config webpack.client-watch.js",
+    "watch-client": "npm run prepare-assets && webpack --verbose --colors --display-error-details --config webpack.client-watch.js && webpack-dev-server --config webpack.client-watch.js --port 2080",
     "watch": "concurrent --kill-others 'npm run watch-client' 'npm run watch-server' 'npm run start'",
     "prepare-assets": "./prepare_assets.sh"
   },
@@ -32,7 +32,9 @@
       "flummox": "2.13.2",
       "handlebars": "3.0.0",
       "superagent": "0.19.0",
-      "validatorjs": "1.2.1"
+      "validatorjs": "1.2.1",
+      "good": "5.1.2",
+      "good-console": "4.1.0"
   },
   "devDependencies": {
       "webpack": "1.7.3",

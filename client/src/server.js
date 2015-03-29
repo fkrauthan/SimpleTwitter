@@ -3,14 +3,27 @@ import React from 'react';
 import Flux from './shared/Flux';
 import App from './client/SimpleTwitterApp'
 import Path from 'path';
+import ApiUtils from 'api-utils';
 
 import DocumentTitle from 'react-document-title';
 
 
 /**
+ * Read config file for details to the api server
+ */
+const CONFIG = require(__dirname + '/../config.json');
+ApiUtils.setHost(CONFIG.apiserver);
+
+
+/**
  * Start Hapi server on port 8000.
  */
-const server = new Server();
+const server = new Server({
+	debug: {
+		log: ['hapi'],
+		request: ['hapi']
+	}
+});
 
 server.connection({
 	port: process.env.PORT || 2017
@@ -114,4 +127,27 @@ function finishUpRequest(request, reply, flux) {
 	});
 }
 
-server.start();
+
+/**
+ * Setup logging
+ */
+var options = {
+    opsInterval: 1000,
+    reporters: [{
+        reporter: require('good-console'),
+        args:[{ log: '*', response: '*' }]
+    }]
+};
+server.register({
+    register: require('good'),
+    options: options
+}, function (err) {
+    if (err) {
+        console.error(err);
+    }
+    else {
+        server.start(function () {
+            console.info('Server started at ' + server.info.uri);
+        });
+    }
+});

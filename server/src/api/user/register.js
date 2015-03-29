@@ -5,7 +5,7 @@ var sha256 = require(__dirname + '/../../utils/sha256');
 module.exports = function(app, sequelize) {
     var User = sequelize.import(__dirname + '/../../models/User');
 
-    app.post('/register', function(req, res, next) {
+    app.post('/api/register', function(req, res, next) {
         var user = User.build(req.body);
 
         async.series([

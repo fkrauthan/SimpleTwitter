@@ -23,8 +23,8 @@ var morgan = require('morgan');
 var responseTime = require('response-time');
 
 var app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use('/api', bodyParser.urlencoded({ extended: false }));
+app.use('/api', bodyParser.json());
 app.use(morgan('combined'));
 app.use(responseTime({digits: 5}));
 
@@ -47,8 +47,12 @@ require(__dirname + '/api/index')(app, sequelize);
 
 // Prepare serving application
 var url = require('url');
-var proxy = require('proxy-middleware');
-app.use(proxy(url.parse(CONFIG.renderer)));
+var proxy = require('express-http-proxy');
+app.use(proxy(CONFIG.renderer, {
+    forwardPath: function(req, res) {
+        return url.parse(req.url).path;
+    }
+}));
 
 
 // Connect to database and start web service

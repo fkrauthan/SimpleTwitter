@@ -59,7 +59,7 @@ export default class RegistrationService {
                         return;
                     }
 
-                    resolve(res);
+                    resolve({'success': true});
                 });
         });
     }

@@ -11,4 +11,8 @@ export default class RegistrationsActions extends Actions {
         };
     }
 
+    clearSuccessState() {
+        return {};
+    }
+
 }

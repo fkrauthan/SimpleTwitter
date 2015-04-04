@@ -7,10 +7,12 @@ export default class RegistrationStore extends Store {
 
       let navigationActionIds = flux.getActionIds('registration');
       this.register(navigationActionIds.register, this.handleRegistration);
+      this.register(navigationActionIds.clearSuccessState, this.handleClearSuccessState);
 
       this.state = {
           errors: {},
-          user: this.createEmptyUser()
+          user: this.createEmptyUser(),
+          successful: false
       };
   }
 
@@ -24,19 +26,30 @@ export default class RegistrationStore extends Store {
       };
   }
 
+  handleClearSuccessState() {
+      this.setState({
+          errors: {},
+          user: this.createEmptyUser(),
+          successful: false
+      });
+  }
+
   handleRegistration({ user, response }) {
       if(response.errors) {
           this.setState({
               errors: response.errors,
-              user: user
+              user: user,
+              successful: false
           });
       }
 
-      //TODO handle api errors / successful registration
-      //console.log(user, response);
-      /*this.setState({
-          path: newPath
-      });*/
+      if(response.success) {
+          this.setState({
+              errors: {},
+              user: this.createEmptyUser(),
+              successful: true
+          });
+      }
   }
 
   getErrors() {
@@ -45,6 +58,10 @@ export default class RegistrationStore extends Store {
 
   getUser() {
       return this.state.user;
+  }
+
+  isSuccessful() {
+      return this.state.successful;
   }
 
     static serialize(state) {

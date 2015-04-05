@@ -6,6 +6,11 @@ import NavigationStore from './stores/NavigationStore';
 import RegistrationActions from './actions/RegistrationActions';
 import RegistrationStore from './stores/RegistrationStore';
 
+import LoginActions from './actions/LoginActions';
+import LoginStore from './stores/LoginStore';
+
+import CredentialsStore from './stores/CredentialsStore';
+
 
 export default class Flux extends Flummox {
     constructor() {
@@ -16,5 +21,10 @@ export default class Flux extends Flummox {
 
         this.createActions('registration', RegistrationActions);
         this.createStore('registration', RegistrationStore, this);
+
+        this.createActions('login', LoginActions);
+        this.createStore('login', LoginStore, this);
+
+        this.createStore('credentials', CredentialsStore, this);
     }
 }

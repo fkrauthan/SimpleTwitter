@@ -1,3 +1,8 @@
 {
-    "apiserver": "http://localhost:2016"
+    "cookieSalt": "",
+    "apiserver": "http://localhost:2016",
+    "oauth": {
+        "consumerKey": "",
+        "consumerSecret": ""
+    }
 }

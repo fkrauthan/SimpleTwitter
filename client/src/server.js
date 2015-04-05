@@ -61,6 +61,13 @@ server.ext('onPreResponse', (request, reply) => {
 
 	let flux = new Flux();
 	flux.getActions('navigation').changePath(request.path);
+	flux.getStore('credentials').setConsumerCredentials(CONFIG.oauth);
+
+	var credentials = request.session.get('credentials');
+	if(credentials) {
+		flux.getStore('credentials').setCredentials(credentials);
+	}
+
 
 	let waitForAsync = false;
 	if(request.method === 'post') {
@@ -106,6 +113,15 @@ server.ext('onPreResponse', (request, reply) => {
 });
 
 function finishUpRequest(request, reply, flux) {
+	if(request.path === '/login' && request.method === 'post') {
+		let credentials = flux.getStore('credentials').getCredentials();
+		if(credentials) {
+			request.session.set('credentials', credentials);
+
+			//TODO may redirect
+		}
+	}
+
 	// TODO Async render app
 
 	let appString = React.withContext(
@@ -129,19 +145,29 @@ function finishUpRequest(request, reply, flux) {
 
 
 /**
- * Setup logging
+ * Setup plugins
  */
-var options = {
+var goodOptions = {
     opsInterval: 1000,
     reporters: [{
         reporter: require('good-console'),
         args:[{ log: '*', response: '*' }]
     }]
 };
-server.register({
+var yarOptions = {
+	maxCookieSize: 0,
+	cookieOptions: {
+		password: CONFIG.cookieSalt
+	}
+};
+
+server.register([{
     register: require('good'),
-    options: options
-}, function (err) {
+    options: goodOptions
+}, {
+	register: require('yar'),
+    options: yarOptions
+}], function (err) {
     if (err) {
         console.error(err);
     }

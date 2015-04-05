@@ -47,7 +47,11 @@ export default class LoginService {
                         return;
                     }
 
-                    resolve({'success': true});
+                    resolve({
+                        'success': true,
+                        'token': res.body.token,
+                        'secret': res.body.secret
+                    });
                 });
         });
     }

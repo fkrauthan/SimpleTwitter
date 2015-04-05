@@ -4,6 +4,7 @@
 
 import React from 'react';
 import FluxComponent from 'flummox/component';
+import fluxMixin from 'flummox/mixin';
 
 import AuthenticatedHeader from './header/Authenticated';
 import UnAuthenticatedHeader from './header/UnAuthenticated';
@@ -12,9 +13,11 @@ import { Navbar } from 'react-bootstrap';
 import { Glyphicon } from 'react-bootstrap';
 
 let Header = React.createClass({
+    mixins: [fluxMixin(['credentials'])],
+
     render: function() {
         var headerElement;
-        if(true) {
+        if(!this.state.token || !this.state.secret) {
             headerElement = <UnAuthenticatedHeader />;
         }
         else {

@@ -9,7 +9,7 @@ import { Nav, NavItem} from 'react-bootstrap';
 let Authenticated = React.createClass({
     render: function() {
         return (
-            <Nav navbar="true">
+            <Nav navbar={true}>
             </Nav>
             );
     }

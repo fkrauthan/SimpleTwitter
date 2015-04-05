@@ -28,17 +28,13 @@ export default class CredentialsStore extends Store {
     }
 
     setConsumerCredentials({consumerKey, consumerSecret}) {
-        this.setState({
-            consumerKey,
-            consumerSecret
-        });
+        this.state.consumerKey = consumerKey;
+        this.state.consumerSecret = consumerSecret;
     }
 
     setCredentials({token, secret}) {
-        this.setState({
-            token,
-            secret
-        });
+        this.state.token = token;
+        this.state.secret = secret;
     }
 
     getCredentials() {

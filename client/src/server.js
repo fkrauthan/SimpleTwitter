@@ -64,7 +64,9 @@ server.ext('onPreResponse', (request, reply) => {
 	flux.getStore('credentials').setConsumerCredentials(CONFIG.oauth);
 
 	var credentials = request.session.get('credentials');
+	console.log(request.session.get('credentials'));
 	if(credentials) {
+		console.log(credentials);
 		flux.getStore('credentials').setCredentials(credentials);
 	}
 
@@ -116,6 +118,7 @@ function finishUpRequest(request, reply, flux) {
 	if(request.path === '/login' && request.method === 'post') {
 		let credentials = flux.getStore('credentials').getCredentials();
 		if(credentials) {
+			console.log('Set credentials', credentials);
 			request.session.set('credentials', credentials);
 
 			//TODO may redirect
@@ -155,9 +158,9 @@ var goodOptions = {
     }]
 };
 var yarOptions = {
-	maxCookieSize: 0,
 	cookieOptions: {
-		password: CONFIG.cookieSalt
+		password: CONFIG.cookieSalt,
+		isSecure: false
 	}
 };
 

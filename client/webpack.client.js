@@ -34,7 +34,7 @@ module.exports = {
 		],
 		extensions: ['', '.json', '.jsx', '.js'],
 		alias: {
-			'api-utils': path.join(__dirname, 'src', 'client', 'api-utils.js')
+			'../../api-utils': path.join(__dirname, 'src', 'client', 'api-utils.js')
 		}
 	},
 	node:    {

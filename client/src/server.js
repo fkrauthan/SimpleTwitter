@@ -1,9 +1,9 @@
-import {Server} from 'hapi';
+import express from 'express';
 import React from 'react';
 import Flux from './shared/Flux';
 import App from './client/SimpleTwitterApp'
 import Path from 'path';
-import ApiUtils from 'api-utils';
+import ApiUtils from './api-utils';
 
 import DocumentTitle from 'react-document-title';
 
@@ -16,86 +16,98 @@ ApiUtils.setHost(CONFIG.apiserver);
 
 
 /**
- * Start Hapi server on port 8000.
+ * Prepare express server
  */
-const server = new Server({
-	debug: {
-		log: ['hapi'],
-		request: ['hapi']
-	}
-});
+let app = express();
 
-server.connection({
-	port: process.env.PORT || 2017
-});
+
+/**
+ * Enable session handling
+ */
+import session from 'express-session';
+import bodyParser from 'body-parser';
+app.use(session({
+	secret: CONFIG.cookieSalt,
+	resave: true,
+	saveUninitialized: true
+}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 
 /**
  * Load template
  */
-server.views({
-    engines: {
-        html: require('handlebars')
-    },
-    path: Path.join(__dirname, 'server')
-});
+import ehbs from 'express-hbs';
+app.engine('hbs', ehbs.express4({
+	partialsDir: __dirname + '/server'
+}));
+app.set('view engine', 'hbs');
+app.set('views', __dirname + '/server/views')
+
 
 /**
  * Attempt to serve static requests from the public folder.
  */
-server.route({
-	method:  '*',
-	path:    '/{params*}',
-	handler: (request, reply) => {
-		reply.file('static' + request.path);
-	}
-});
+app.use(express.static('static'));
+
 
 /**
- * Catch dynamic requests here to fire-up React Router.
+ * Render application
  */
-server.ext('onPreResponse', (request, reply) => {
-	if (typeof request.response.statusCode !== 'undefined') {
-		return reply.continue();
-	}
 
+// Startup flux
+app.use(function(req, res, next) {
 	let flux = new Flux();
-	flux.getActions('navigation').changePath(request.path);
+	flux.getActions('navigation').changePath(req.path);
 	flux.getStore('credentials').setConsumerCredentials(CONFIG.oauth);
 
-	var credentials = request.session.get('credentials');
-	console.log(request.session.get('credentials'));
+	req.st = {};
+	req.st.flux = flux;
+
+	next();
+});
+
+// Restore credentials
+app.use(function(req, res, next) {
+	let flux = req.st.flux;
+
+	var credentials = req.session.credentials;
 	if(credentials) {
-		console.log(credentials);
 		flux.getStore('credentials').setCredentials(credentials);
 	}
 
+	next();
+});
+
+// Process store actions
+app.use(function(req, res, next) {
+	let flux = req.st.flux;
 
 	let waitForAsync = false;
-	if(request.method === 'post') {
-		if(request.payload.actions && request.payload.action) {
-			let actionsName = request.payload.actions;
+	if(req.method.toUpperCase() === 'POST') {
+		if(req.body.actions && req.body.action) {
+			let actionsName = req.body.actions;
 			let actions = flux.getActions(actionsName);
 			if(!actions) {
 				console.log('Can not find actions ' + actionsName);
-				return reply.continue();
+				return res.status(500).send('Can not find actions ' + actionsName);
 			}
 
 			let store = flux.getStore(actionsName);
 			if(!store) {
 				console.log('Can not find store ' + actionsName);
-				return reply.continue();
+				return res.status(500).send('Can not find store ' + actionsName);
 			}
 
-			let actionName = request.payload.action;
+			let actionName = req.body.action;
 			let action = actions[actionName];
 			if(typeof action !== 'function') {
 				console.log('Can not find action ' + actionName);
-				return reply.continue();
+				return res.status(500).send('Can not find action ' + actionName);
 			}
 
 			waitForAsync = true;
-			let payload = request.payload[actionsName][actionName];
+			let payload = req.body[actionsName][actionName];
 			async () => {
 				if(payload) {
 					await action(payload);
@@ -104,28 +116,42 @@ server.ext('onPreResponse', (request, reply) => {
 					await action();
 				}
 
-				finishUpRequest(request, reply, flux);
+				next();
 			}();
 		}
 	}
 
 	if(!waitForAsync) {
-		finishUpRequest(request, reply, flux);
+		next();
 	}
 });
 
-function finishUpRequest(request, reply, flux) {
-	if(request.path === '/login' && request.method === 'post') {
+// Save credentials
+app.use(function(req, res, next) {
+	let flux = req.st.flux;
+
+	if(req.path === '/login' && req.method.toUpperCase() === 'POST') {
 		let credentials = flux.getStore('credentials').getCredentials();
 		if(credentials) {
-			console.log('Set credentials', credentials);
-			request.session.set('credentials', credentials);
-
-			//TODO may redirect
+			req.session.credentials = credentials;
 		}
 	}
 
-	// TODO Async render app
+	next();
+});
+
+// Execute async data fetching
+app.use(function(req, res, next) {
+	let flux = req.st.flux;
+
+	//TODO do async data fetching
+
+	next();
+});
+
+// Render the app
+app.use(function(req, res) {
+	let flux = req.st.flux;
 
 	let appString = React.withContext(
       { flux },
@@ -138,45 +164,21 @@ function finishUpRequest(request, reply, flux) {
 
 	const webserver = process.env.NODE_ENV === 'production' ? '' : '//localhost:2080';
 
-	reply.view('layout', {
+	res.render('layout', {
 		appString,
 		title,
 		fluxString,
 		webserver
 	});
-}
+})
 
 
 /**
- * Setup plugins
+ * Start server
  */
-var goodOptions = {
-    opsInterval: 1000,
-    reporters: [{
-        reporter: require('good-console'),
-        args:[{ log: '*', response: '*' }]
-    }]
-};
-var yarOptions = {
-	cookieOptions: {
-		password: CONFIG.cookieSalt,
-		isSecure: false
-	}
-};
+var server = app.listen(process.env.PORT || 2017, function() {
+	var host = server.address().address;
+	var port = server.address().port;
 
-server.register([{
-    register: require('good'),
-    options: goodOptions
-}, {
-	register: require('yar'),
-    options: yarOptions
-}], function (err) {
-    if (err) {
-        console.error(err);
-    }
-    else {
-        server.start(function () {
-            console.info('Server started at ' + server.info.uri);
-        });
-    }
+	console.log('Server started at http://%s:%s', host, port);
 });

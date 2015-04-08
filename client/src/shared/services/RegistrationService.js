@@ -1,7 +1,7 @@
 
 var Validator = require('validatorjs');
 var request = require('superagent');
-var ApiUtils = require('api-utils');
+var ApiUtils = require('../../api-utils');
 
 const rules = {
     name: 'required',

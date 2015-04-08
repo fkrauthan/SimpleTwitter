@@ -1,5 +1,6 @@
 import express from 'express';
 import React from 'react';
+import FluxComponent from 'flummox/component';
 import Flux from './shared/Flux';
 import App from './client/SimpleTwitterApp'
 import Path from 'path';
@@ -153,10 +154,7 @@ app.use(function(req, res, next) {
 app.use(function(req, res) {
 	let flux = req.st.flux;
 
-	let appString = React.withContext(
-      { flux },
-      () => React.renderToString(<App />)
-    );
+	let appString = React.renderToString(<FluxComponent flux={flux}><App /></FluxComponent>);
 
 
 	let title = DocumentTitle.rewind();

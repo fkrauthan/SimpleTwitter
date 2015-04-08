@@ -1,14 +1,7 @@
 import React from 'react';
+import FluxComponent from 'flummox/component';
 import Flux from './shared/Flux';
 import App from './client/SimpleTwitterApp'
-
-
-/**
- * Enable Accessibility warnings on the client.
- */
-if (process.env.NODE_ENV !== 'production') {
-	require('react-a11y')();
-}
 
 
 /**
@@ -16,10 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
  */
 let flux = new Flux();
 flux.deserialize(window.__FLUX__);
-React.withContext(
-    { flux },
-    () => React.render(<App />, window.document.getElementById('app'))
-);
+React.render(<FluxComponent flux={flux}><App /></FluxComponent>, window.document.getElementById('app'));
 
 
 

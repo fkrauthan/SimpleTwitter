@@ -15,7 +15,7 @@ module.exports = function(app, sequelize) {
 
         var errors = tweet.validate();
         if(errors) {
-            return res.send(400, {
+            return res.status(400).send({
                 'validationErrors': errors
             });
         }

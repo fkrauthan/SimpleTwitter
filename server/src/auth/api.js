@@ -16,7 +16,7 @@ module.exports = function(app, sequelize) {
                 }
 
                 if (!user) {
-                    res.send(401, { error: 'Username or password is wrong!' });
+                    res.status(401).send({ error: 'Username or password is wrong!' });
                     return;
                 }
 
@@ -28,7 +28,7 @@ module.exports = function(app, sequelize) {
                     }
                 }).success(function (client) {
                         if(!client) {
-                            res.send(401, { error: 'Can\'t find client!' });
+                            res.status(401).send({ error: 'Can\'t find client!' });
                             return;
                         }
 
@@ -41,7 +41,7 @@ module.exports = function(app, sequelize) {
                             }
                         }).success(function (accessToken) {
                                 if(accessToken) {
-                                    res.send(200, {
+                                    res.status(200).send({
                                         'token': accessToken.token,
                                         'secret': accessToken.secret
                                     });
@@ -56,7 +56,7 @@ module.exports = function(app, sequelize) {
                                         'clientId': client.id
                                     })
                                         .success(function (accessToken) {
-                                            res.send(201, {
+                                            res.status(201).send({
                                                 'token': accessToken.token,
                                                 'secret': accessToken.secret
                                             });
@@ -91,7 +91,7 @@ module.exports = function(app, sequelize) {
 
                     accessToken.save(['revoked'])
                         .success(function (accessToken) {
-                            res.send(200);
+                            res.status(200).send();
                         })
                         .error(function(error) {
                             next(error);

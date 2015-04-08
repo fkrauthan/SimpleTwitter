@@ -12,7 +12,7 @@ module.exports = function(app, sequelize) {
             function(callback) {
                 var errors = user.validate();
                 if(errors) {
-                    res.send(400, {
+                    res.status(400).send({
                         'validationErrors': errors
                     });
                     callback(errors);
@@ -29,7 +29,7 @@ module.exports = function(app, sequelize) {
                 })
                     .success(function (user) {
                         if(user) {
-                            res.send(409, {
+                            res.status(409).send({
                                 'validationErrors': {
                                     'username': 'Username already in use!'
                                 }
@@ -51,7 +51,7 @@ module.exports = function(app, sequelize) {
                 })
                     .success(function (user) {
                         if(user) {
-                            res.send(409, {
+                            res.status(409).send({
                                 'validationErrors': {
                                     'email': 'Email already in use!'
                                 }
@@ -76,7 +76,7 @@ module.exports = function(app, sequelize) {
                     user = user.toJSON();
                     delete user.password;
 
-                    res.send(201, user);
+                    res.status(201).send(user);
                 })
                 .error(function (error) {
                     next(error);

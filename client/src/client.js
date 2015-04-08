@@ -12,7 +12,6 @@ flux.deserialize(window.__FLUX__);
 React.render(<FluxComponent flux={flux}><App /></FluxComponent>, window.document.getElementById('app'));
 
 
-
 /**
  * Detect whether the server-side render has been discarded due to an invalid checksum.
  */
